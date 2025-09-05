@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=3 uid="uid://dftm3sdr4grbd"]
+
+[ext_resource type="Script" uid="uid://u7kyyarqg8k" path="res://Player/player_movement.gd" id="1_3qydi"]
+[ext_resource type="PackedScene" uid="uid://cr1n63o6s17fn" path="res://Player/Camera/ThirdPersonCamera.tscn" id="2_q3lat"]
+[ext_resource type="Script" uid="uid://bcvetd3ouas3b" path="res://Interact/Interactor/interactor.gd" id="3_tok1r"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_l2ndj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q3lat"]
+albedo_color = Color(0.478431, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_q3lat"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tok1r"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l2ndj"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ddoul"]
+radius = 5.0
+
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
+script = ExtResource("1_3qydi")
+
+[node name="Pivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="BodyModel" type="MeshInstance3D" parent="Pivot"]
+mesh = SubResource("CapsuleMesh_l2ndj")
+surface_material_override/0 = SubResource("StandardMaterial3D_q3lat")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(-8.74228e-09, -0.2, 0, 0.2, -8.74228e-09, 0, 0, 0, 0.2, 0, 1, -0.47895)
+mesh = SubResource("CapsuleMesh_q3lat")
+surface_material_override/0 = SubResource("StandardMaterial3D_tok1r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_l2ndj")
+
+[node name="ThirdPersonCamera" parent="." instance=ExtResource("2_q3lat")]
+unique_name_in_owner = true
+
+[node name="Interactor" type="Area3D" parent="."]
+script = ExtResource("3_tok1r")
+metadata/_custom_type_script = "uid://bcvetd3ouas3b"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
+shape = SubResource("SphereShape3D_ddoul")
