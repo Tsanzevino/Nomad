@@ -24,8 +24,11 @@ func _process(delta):
 		velocity.z = direction.z * WALK_SPEED
 	
 	# Rotate the character to point in the direction of the movement
-	if (direction.length() > 0 and %ThirdPersonCamera.spring_length > 1.0):
-		%Pivot.look_at(position + direction)
+	if (%ThirdPersonCamera.spring_length > 1.0):
+		if (direction.length() > 0):
+			%Pivot.look_at(position + direction)
+	else:
+		%Pivot.basis = Basis()
 	# Apply the velocities
 	move_and_slide()
 
