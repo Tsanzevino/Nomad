@@ -44,30 +44,30 @@ func _on_area_exited(area):
 	targets.remove_at(targets.find(area))
 
 func get_best_target() -> Interactable:
-	var camera_transform = owner.get_camera_transform()
-	var newTarget = null
-	var highest_dot = MAX_DOT
+	var forward : Vector3 = owner.get_forward()
+	var newTarget : Interactable = null
+	var highest_dot : float = MAX_DOT
 	for target : Interactable in targets:
 		# Creating Variables for readability.
 		var targetPos : Vector3 = target.global_position
-		var camForward : Vector3 = -camera_transform.basis.z
-		var camPos : Vector3 = camera_transform.origin
-		var targetDirection = camPos.direction_to(targetPos)
-		var dot := camForward.dot(targetDirection)
+		var targetDirection = global_position.direction_to(targetPos)
+		var dot := forward.dot(targetDirection)
 		if dot > highest_dot:
 			# Create a raycast to check if the pathway is clear
 			# to the grappling point
 			var ray : RayCast3D = RayCast3D.new()
-			ray.target_position = targetPos - camPos
+			ray.target_position = targetPos - global_position
+			ray.collision_mask = 1
 			add_child(ray)
+			ray.global_basis = Basis()
 			ray.force_raycast_update()
 			remove_child(ray)
 			# Checks if clear before continuing
 			if (!ray.is_colliding()):
-			# Calculating the dot product from the forward vector of the camera
-			# to the direction from player to target.
-			# This dot product will be 1.0 if the player is looking directly
-			# at the target.
+				# Calculating the dot product from the forward vector of the camera
+				# to the direction from player to target.
+				# This dot product will be 1.0 if the player is looking directly
+				# at the target.
 				highest_dot = dot
 				newTarget = target
 	return newTarget
