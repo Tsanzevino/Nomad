@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://u7kyyarqg8k" path="res://Player/player_movement.gd" id="1_3qydi"]
 [ext_resource type="PackedScene" uid="uid://cr1n63o6s17fn" path="res://Player/Camera/ThirdPersonCamera.tscn" id="2_q3lat"]
-[ext_resource type="Script" uid="uid://bcvetd3ouas3b" path="res://Interact/Interactor/interactor.gd" id="3_tok1r"]
+[ext_resource type="Script" uid="uid://bf3lynatpp3ki" path="res://Interact/Interactor/interactor.gd" id="3_tok1r"]
+[ext_resource type="Script" uid="uid://d0l6gxjop07vk" path="res://Player/PlayerInventory/inventory_manager.gd" id="4_ddoul"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l2ndj"]
 
@@ -13,8 +14,6 @@ albedo_color = Color(0.478431, 0, 0, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ddoul"]
 radius = 5.0
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tok1r"]
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 2
@@ -36,29 +35,13 @@ shape = SubResource("CapsuleShape3D_l2ndj")
 
 [node name="ThirdPersonCamera" parent="." instance=ExtResource("2_q3lat")]
 unique_name_in_owner = true
-spring_length = 0.01
+spring_length = 0.0
 
 [node name="Interactor" type="Area3D" parent="."]
 script = ExtResource("3_tok1r")
-metadata/_custom_type_script = "uid://bcvetd3ouas3b"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
 shape = SubResource("SphereShape3D_ddoul")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = SubResource("PlaceholderTexture2D_tok1r")
+[node name="InventoryManager" type="Node3D" parent="."]
+script = ExtResource("4_ddoul")

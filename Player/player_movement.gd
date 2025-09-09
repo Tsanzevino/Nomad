@@ -1,9 +1,11 @@
 extends CharacterBody3D
 
-const GRAVITY : float = 9.8
-const JUMP_VELOCITY : float = 5.0
-const WALK_SPEED : float = 5.0
-const SPRINT_SPEED : float = 10.0
+const GRAVITY : float = 20.0
+const JUMP_VELOCITY : float = 8.0
+const WALK_SPEED : float = 3.0
+const SPRINT_SPEED : float = 6.0
+const GROUND_FRICTION : float = 15
+const AIR_FRICTION : float = 3
 
 func _process(delta):
 	# Jump and gravity
@@ -16,16 +18,22 @@ func _process(delta):
 	var input_dir : Vector2 = Input.get_vector("move_left","move_right","move_forward","move_backward")
 	var direction : Vector3 = global_basis * Vector3(input_dir.x, 0.0, input_dir.y)
 	direction = Vector3(direction.x, 0, direction.z).normalized()
+	# Apply sprint
 	if Input.is_action_pressed("sprint"):
-		velocity.x = direction.x * SPRINT_SPEED
-		velocity.z = direction.z * SPRINT_SPEED
+		direction *= SPRINT_SPEED
 	else:
-		velocity.x = direction.x * WALK_SPEED
-		velocity.z = direction.z * WALK_SPEED
+		direction *= WALK_SPEED
+	
+	if is_on_floor():
+		velocity.x = lerpf(velocity.x, direction.x, delta * GROUND_FRICTION)
+		velocity.z = lerpf(velocity.z, direction.z, delta * GROUND_FRICTION)
+	else:
+		velocity.x = lerpf(velocity.x, direction.x, delta * AIR_FRICTION)
+		velocity.z = lerpf(velocity.z, direction.z, delta * AIR_FRICTION)
 	
 	# Rotate the character to point in the direction of the movement
 	if (%ThirdPersonCamera.spring_length != 0.0):
-		if (direction.length() > 0):
+		if (direction.length () > 0):
 			%Pivot.look_at(position + direction)
 	else:
 		%Pivot.basis = Basis()

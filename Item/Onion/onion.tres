@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://bm7ys8i8o2s4o"]
+
+[ext_resource type="Script" uid="uid://gcq5s0nq2dw" path="res://Item/item.gd" id="1_hyii0"]
+[ext_resource type="Texture2D" uid="uid://db2q2rufpf1mw" path="res://Item/Onion/green_onion.png" id="2_h2yj4"]
+
+[resource]
+script = ExtResource("1_hyii0")
+name = "Onion"
+texture = ExtResource("2_h2yj4")
+stackSize = 16
+metadata/_custom_type_script = "uid://gcq5s0nq2dw"

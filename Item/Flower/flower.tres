@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dqv0r2lvbci5e"]
+
+[ext_resource type="Script" uid="uid://gcq5s0nq2dw" path="res://Item/item.gd" id="1_oqqyj"]
+[ext_resource type="Texture2D" uid="uid://bxf0qtohptmc8" path="res://Item/Flower/flower.png" id="2_pqeel"]
+
+[resource]
+script = ExtResource("1_oqqyj")
+name = "Flower"
+texture = ExtResource("2_pqeel")
+maxStackSize = 16
+id = 1
+metadata/_custom_type_script = "uid://gcq5s0nq2dw"
