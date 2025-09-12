@@ -9,12 +9,12 @@ point_count = 9
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4a5xf"]
 noise_type = 3
-seed = 1
 fractal_type = 0
 
 [resource]
 script = ExtResource("1_qlu63")
 heightSampler = SubResource("Curve_qlu63")
 noise = SubResource("FastNoiseLite_4a5xf")
-weight = 2.0
+weight = 5.0
+seed_offset = 123
 metadata/_custom_type_script = "uid://xu4q47ndp3fs"

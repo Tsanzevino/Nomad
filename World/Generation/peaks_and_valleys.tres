@@ -9,12 +9,12 @@ point_count = 5
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_fi3r6"]
 noise_type = 3
-seed = 2
 frequency = 0.05
 
 [resource]
 script = ExtResource("1_erx5b")
 heightSampler = SubResource("Curve_erx5b")
 noise = SubResource("FastNoiseLite_fi3r6")
-weight = 5.0
+weight = 10.0
+seed_offset = 1
 metadata/_custom_type_script = "uid://xu4q47ndp3fs"

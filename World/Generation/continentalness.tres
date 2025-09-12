@@ -11,10 +11,12 @@ metadata/_snap_count = 50
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_jpacs"]
 noise_type = 3
+frequency = 0.001
 
 [resource]
 script = ExtResource("1_jpacs")
 heightSampler = SubResource("Curve_jpacs")
 noise = SubResource("FastNoiseLite_jpacs")
 weight = 10.0
+seed_offset = 51
 metadata/_custom_type_script = "uid://xu4q47ndp3fs"

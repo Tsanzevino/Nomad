@@ -1,5 +1,6 @@
 class_name WorldGenerator extends MeshInstance3D
 
+static var generationSeed : int = 10
 @export var continentalness : HeightComponent = preload("res://World/Generation/continentalness.tres")
 @export var erosion : HeightComponent = preload("res://World/Generation/erosion.tres")
 @export var peaksAndValleys : HeightComponent = preload("res://World/Generation/peaks_and_valleys.tres")
@@ -45,4 +46,4 @@ func generate_terrain():
 	
 
 func get_terrain_height(x : float, z : float) -> float:
-	return continentalness.get_height_component(x,z) + erosion.get_height_component(x,z) + peaksAndValleys.get_height_component(x,z) 
+	return continentalness.get_height_component(x, z, generationSeed) + erosion.get_height_component(x, z, generationSeed) + peaksAndValleys.get_height_component(x, z, generationSeed) 
