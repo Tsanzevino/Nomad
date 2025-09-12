@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="HeightComponent" load_steps=4 format=3 uid="uid://bdam7fg3qlcfk"]
+
+[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/height_component.gd" id="1_erx5b"]
+
+[sub_resource type="Curve" id="Curve_erx5b"]
+_limits = [0.0, 1.0, -1.0, 1.0]
+_data = [Vector2(-1, 0), 0.0, 0.923845, 0, 0, Vector2(-0.3, 0.382023), 0.0561798, 0.0561798, 0, 0, Vector2(0.05, 0.426966), 0.256822, 0.256822, 0, 0, Vector2(0.54, 0.853933), 0.0, 0.0, 0, 0, Vector2(1, 0.831461), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fi3r6"]
+noise_type = 3
+seed = 2
+frequency = 0.05
+
+[resource]
+script = ExtResource("1_erx5b")
+heightSampler = SubResource("Curve_erx5b")
+noise = SubResource("FastNoiseLite_fi3r6")
+weight = 5.0
+metadata/_custom_type_script = "uid://xu4q47ndp3fs"

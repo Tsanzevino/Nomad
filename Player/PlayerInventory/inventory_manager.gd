@@ -2,28 +2,23 @@ class_name InventoryManager extends Node3D
 
 var inventory : Inventory = preload("res://Player/PlayerInventory/inventory.tres")
 @export var size : int = 12
-var onion : Item = preload("res://Item/Onion/onion.tres")
-var flower : Item = preload("res://Item/Flower/flower.tres")
+
+signal inventory_updated
 
 func _ready():
 	inventory.items.resize(size)
 	print(inventory.items.size())
+	for i in get_tree().get_nodes_in_group("Collectables"):
+		i.collect_item.connect(collect_item)
 
 func _process(_delta):
-	if Input.is_action_just_pressed("inventory"):
-		if randi() % 2 == 0:
-			collect_item(onion,10)
-		else:
-			collect_item(flower,4)
-	if Input.is_action_just_pressed("use_item"):
-		if randi() % 2 == 0:
-			use_item(onion,7)
-		else:
-			use_item(flower,7)
+	if Input.is_action_just_pressed("sort"):
+		sort()
 
 func resize_inventory(newSize : int):
 	size = newSize
 	inventory.items.resize(newSize)
+	inventory_updated.emit()
 
 func collect_item(item : Item, amount : int) -> int:
 	# First pass pairs items with existing stacks
@@ -33,6 +28,7 @@ func collect_item(item : Item, amount : int) -> int:
 		if i != null and i.equals(item):
 			amount = i.increase_count(amount)
 			if amount == 0:
+				inventory_updated.emit()
 				return 0
 	# Second pass puts items in null slots
 	for n in range(size):
@@ -42,7 +38,9 @@ func collect_item(item : Item, amount : int) -> int:
 			amount = i.increase_count(amount)
 			inventory.items[n] = i
 			if amount == 0:
+				inventory_updated.emit()
 				return 0
+	inventory_updated.emit()
 	return amount
 
 func use_item(item : Item, amount : int) -> bool:
@@ -57,7 +55,9 @@ func use_item(item : Item, amount : int) -> bool:
 			if i.count == 0:
 				inventory.items[n] = null
 			if amount == 0:
+				inventory_updated.emit()
 				return true
+	inventory_updated.emit()
 	return true
 
 ## Validates that the inventory contains the
@@ -80,6 +80,21 @@ func validate_item_count(item : Item, amount : int) -> bool:
 		if i != null and i.equals(item):
 			amtInInventory += i.count
 	return amtInInventory >= amount
+
+func sort():
+	inventory.items.sort_custom(compare)
+	inventory_updated.emit()
+
+func compare(a : InventoryItem, b : InventoryItem) -> bool:
+	if a == null:
+		return false
+	if b == null:
+		return true
+	if a.get_item_id() < b.get_item_id():
+		return true
+	elif a.get_item_id() == b.get_item_id():
+		return a.count > b.count
+	return false
 
 ## Creates an InventoryItem from the given Item
 func create_inventory_item(item : Item) -> InventoryItem:

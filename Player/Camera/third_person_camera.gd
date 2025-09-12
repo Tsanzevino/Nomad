@@ -18,9 +18,6 @@ func _process(delta):
 	(get_parent() as Node3D).rotation.y -= input.x
 	rotation.x = clamp(rotation.x - input.y, deg_to_rad(-pitch_limit), deg_to_rad(pitch_limit))
 	
-	if (Input.is_action_just_pressed("ui_cancel")):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	
 
 func _input(event):
 	# Actual Camera controls

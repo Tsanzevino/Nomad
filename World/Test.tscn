@@ -2,31 +2,24 @@
 
 [ext_resource type="Environment" uid="uid://ba2w1hx6ty0ah" path="res://World/world_environment.tres" id="1_maf25"]
 [ext_resource type="PackedScene" uid="uid://dftm3sdr4grbd" path="res://Player/Player.tscn" id="2_1pd7n"]
-[ext_resource type="Script" uid="uid://domg0kmjyeiry" path="res://Interact/Interactables/visual_interactable.gd" id="3_ramaq"]
 [ext_resource type="Script" uid="uid://bcc4qtsm7qfil" path="res://Interact/Interactables/collectable.gd" id="4_3c1nr"]
+[ext_resource type="Resource" uid="uid://cmum4x2627tno" path="res://Item/Hemp/hemp.tres" id="5_1pamv"]
+[ext_resource type="Resource" uid="uid://bm7ys8i8o2s4o" path="res://Item/Onion/onion.tres" id="5_4mnke"]
 [ext_resource type="Texture2D" uid="uid://db2q2rufpf1mw" path="res://Item/Onion/green_onion.png" id="5_a0j1j"]
 [ext_resource type="PackedScene" uid="uid://waotf4yaf1jt" path="res://Inventory/Inventory/InventoryUI.tscn" id="6_d2hgq"]
+[ext_resource type="Script" uid="uid://bty00w834ohnb" path="res://Menus/ui_manager.gd" id="8_1pamv"]
+[ext_resource type="Resource" uid="uid://dqv0r2lvbci5e" path="res://Item/Flower/flower.tres" id="8_duxi5"]
+[ext_resource type="Script" uid="uid://bf8wycx84iruh" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1pd7n"]
-albedo_color = Color(0.27451, 0.678431, 0.203922, 1)
+albedo_color = Color(0.27451, 0.678431, 1, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3c1nr"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0j1j"]
-albedo_color = Color(0, 0.681706, 0.0177731, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d2hgq"]
-albedo_color = Color(0.65098, 0.207843, 0.862745, 1)
+[sub_resource type="SphereShape3D" id="SphereShape3D_a0j1j"]
+radius = 0.1
 
 [sub_resource type="SphereMesh" id="SphereMesh_ramaq"]
 radius = 0.1
 height = 0.2
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_3c1nr"]
-radius = 0.1
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_a0j1j"]
-radius = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mnke"]
 albedo_texture = ExtResource("5_a0j1j")
@@ -42,33 +35,52 @@ material = SubResource("StandardMaterial3D_1pd7n")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("1_maf25")
 
-[node name="Player" parent="." instance=ExtResource("2_1pd7n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5)
-
-[node name="Interactable" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -3)
-script = ExtResource("3_ramaq")
-inactiveMat = SubResource("StandardMaterial3D_3c1nr")
-activeMat = SubResource("StandardMaterial3D_a0j1j")
-targettedMat = SubResource("StandardMaterial3D_d2hgq")
-metadata/_custom_type_script = "uid://domg0kmjyeiry"
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactable"]
-mesh = SubResource("SphereMesh_ramaq")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable"]
-shape = SubResource("SphereShape3D_3c1nr")
-
-[node name="Plant" type="Area3D" parent="."]
+[node name="Collectable" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3)
 script = ExtResource("4_3c1nr")
-nameStr = "Onion"
+item = ExtResource("5_4mnke")
 metadata/_custom_type_script = "uid://bcc4qtsm7qfil"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Plant"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable"]
 shape = SubResource("SphereShape3D_a0j1j")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Plant"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Collectable"]
+mesh = SubResource("SphereMesh_ramaq")
+
+[node name="Collectable2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 0)
+script = ExtResource("4_3c1nr")
+item = ExtResource("8_duxi5")
+metadata/_custom_type_script = "uid://bcc4qtsm7qfil"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable2"]
+shape = SubResource("SphereShape3D_a0j1j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Collectable2"]
+mesh = SubResource("SphereMesh_ramaq")
+
+[node name="Collectable3" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, 0)
+script = ExtResource("4_3c1nr")
+item = ExtResource("5_1pamv")
+metadata/_custom_type_script = "uid://bcc4qtsm7qfil"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable3"]
+shape = SubResource("SphereShape3D_a0j1j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Collectable3"]
+mesh = SubResource("SphereMesh_ramaq")
+
+[node name="Collectable4" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -3)
+script = ExtResource("4_3c1nr")
+item = ExtResource("5_1pamv")
+metadata/_custom_type_script = "uid://bcc4qtsm7qfil"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable4"]
+shape = SubResource("SphereShape3D_a0j1j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Collectable4"]
 mesh = SubResource("SphereMesh_ramaq")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
@@ -76,6 +88,34 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("StandardMaterial3D_4mnke")
 use_collision = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Player" parent="." instance=ExtResource("2_1pd7n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5)
 
-[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource("6_d2hgq")]
+[node name="UIManager" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("8_1pamv")
+
+[node name="InventoryUI" parent="UIManager" instance=ExtResource("6_d2hgq")]
+visible = false
+
+[node name="WorldGenerator" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, -12.5)
+script = ExtResource("10_v5n54")
+metadata/_custom_type_script = "uid://bf8wycx84iruh"
+
+[node name="WorldGenerator2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, 12.5)
+skeleton = NodePath("../WorldGenerator")
+script = ExtResource("10_v5n54")
+metadata/_custom_type_script = "uid://bf8wycx84iruh"
+
+[node name="WorldGenerator3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 12.5)
+script = ExtResource("10_v5n54")
+metadata/_custom_type_script = "uid://bf8wycx84iruh"
+
+[node name="WorldGenerator4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, -12.5)
+skeleton = NodePath("../WorldGenerator3")
+script = ExtResource("10_v5n54")
+metadata/_custom_type_script = "uid://bf8wycx84iruh"

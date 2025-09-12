@@ -1,4 +1,4 @@
-class_name Plant extends Interactable
+class_name Collectable extends Interactable
 
 const HINT_Y_OFFSET : float = 0.2
 const NAME_Y_OFFSET : float = 0.35
@@ -6,15 +6,20 @@ const NAME_Y_OFFSET : float = 0.35
 var hintLabel : Label3D
 var nameLabel : Label3D
 
-@export var nameStr : String = ""
 @export var hintStr : String = "Collect"
+@export var item : Item
 
-func _ready():
+signal collect_item(item : Item, amount : int)
+
+func _enter_tree():
+	add_to_group("Collectables")
 	collision_layer = 128
 	collision_mask = 8
+
+func _ready():
 	# Create the name label
 	nameLabel = Label3D.new()
-	nameLabel.text = nameStr
+	nameLabel.text = item.name
 	nameLabel.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 	nameLabel.visible = false
 	add_child(nameLabel)
@@ -28,9 +33,10 @@ func _ready():
 	hintLabel.position.y += HINT_Y_OFFSET
 
 func interact():
-	# Remove the interactable from the world
-	queue_free()
 	# Give the player the item
+	collect_item.emit(item, (randi() % 4) + 1)
+	# Remove the interactable from the world
+	# queue_free()
 
 func set_active():
 	hintLabel.visible = false

@@ -1,6 +1,7 @@
 class_name Interactable extends Area3D
 
-func _ready():
+func _enter_tree():
+	add_to_group("Interactables")
 	collision_layer = 128
 	collision_mask = 8
 

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="HeightComponent" load_steps=4 format=3 uid="uid://du65liphc327b"]
+
+[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/height_component.gd" id="1_jpacs"]
+
+[sub_resource type="Curve" id="Curve_jpacs"]
+_limits = [0.0, 1.0, -1.0, 1.0]
+_data = [Vector2(-1, 0.6), 0.0, 0.0, 0, 0, Vector2(-0.76, 0), 0.0, 0.0, 0, 0, Vector2(-0.24, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 0.5), 0.0, 0.0, 0, 0, Vector2(0.56, 0.62), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 6
+metadata/_snap_enabled = true
+metadata/_snap_count = 50
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jpacs"]
+noise_type = 3
+
+[resource]
+script = ExtResource("1_jpacs")
+heightSampler = SubResource("Curve_jpacs")
+noise = SubResource("FastNoiseLite_jpacs")
+weight = 10.0
+metadata/_custom_type_script = "uid://xu4q47ndp3fs"
