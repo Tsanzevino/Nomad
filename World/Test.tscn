@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://waotf4yaf1jt" path="res://Inventory/Inventory/InventoryUI.tscn" id="6_d2hgq"]
 [ext_resource type="Script" uid="uid://bty00w834ohnb" path="res://Menus/ui_manager.gd" id="8_1pamv"]
 [ext_resource type="Resource" uid="uid://dqv0r2lvbci5e" path="res://Item/Flower/flower.tres" id="8_duxi5"]
-[ext_resource type="Script" uid="uid://bf8wycx84iruh" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
+[ext_resource type="Script" uid="uid://cllbqbi85l5s1" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1pd7n"]
 albedo_color = Color(0.27451, 0.678431, 1, 1)
@@ -98,24 +98,6 @@ script = ExtResource("8_1pamv")
 [node name="InventoryUI" parent="UIManager" instance=ExtResource("6_d2hgq")]
 visible = false
 
-[node name="WorldGenerator" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, -12.5)
+[node name="WorldGenerator" type="Node3D" parent="."]
 script = ExtResource("10_v5n54")
-metadata/_custom_type_script = "uid://bf8wycx84iruh"
-
-[node name="WorldGenerator2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, 12.5)
-skeleton = NodePath("../WorldGenerator")
-script = ExtResource("10_v5n54")
-metadata/_custom_type_script = "uid://bf8wycx84iruh"
-
-[node name="WorldGenerator3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 12.5)
-script = ExtResource("10_v5n54")
-metadata/_custom_type_script = "uid://bf8wycx84iruh"
-
-[node name="WorldGenerator4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, -12.5)
-skeleton = NodePath("../WorldGenerator3")
-script = ExtResource("10_v5n54")
-metadata/_custom_type_script = "uid://bf8wycx84iruh"
+metadata/_custom_type_script = "uid://cllbqbi85l5s1"
