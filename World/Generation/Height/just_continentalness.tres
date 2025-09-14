@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="HeightMap" load_steps=6 format=3 uid="uid://cx5cx3c2473ri"]
+
+[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/Height/Components/height_component.gd" id="1_nol1r"]
+[ext_resource type="Resource" uid="uid://du65liphc327b" path="res://World/Generation/Height/Components/continentalness.tres" id="2_0tx0l"]
+[ext_resource type="Script" uid="uid://c537kbfx8g6dn" path="res://World/Generation/Height/height_map.gd" id="2_gw3g1"]
+[ext_resource type="Resource" uid="uid://bdam7fg3qlcfk" path="res://World/Generation/Height/Components/peaks_and_valleys.tres" id="3_0tx0l"]
+[ext_resource type="Resource" uid="uid://buwsklyrcsxud" path="res://World/Generation/Height/Components/erosion.tres" id="4_lmjvx"]
+
+[resource]
+script = ExtResource("2_gw3g1")
+components = Array[ExtResource("1_nol1r")]([ExtResource("2_0tx0l"), ExtResource("3_0tx0l"), ExtResource("4_lmjvx")])
+maxHeight = 5.0
+minHeight = -5.0
+heightSeed = 1
+metadata/_custom_type_script = "uid://c537kbfx8g6dn"

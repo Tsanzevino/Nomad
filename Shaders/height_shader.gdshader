@@ -2,9 +2,10 @@ shader_type spatial;
 
 varying vec3 color;
 varying float vertex_y;
+varying float position;
 
-uniform float min_height = 0;
-uniform float max_height = 1;
+uniform float min_height = 100;
+uniform float max_height = 0;
 
 float inverseLerp(float a, float b, float value) {
 	float val = (value - a) / (b - a);
@@ -13,8 +14,8 @@ float inverseLerp(float a, float b, float value) {
 void vertex() {
 	// Called for every vertex the material is visible on.
 	vertex_y = VERTEX.y;
-	float position = inverseLerp(min_height, max_height, vertex_y);
-	color = vec3(0, position, 0.1);
+	position = inverseLerp(min_height, max_height, vertex_y);
+	color = vec3(0, position * position, 0);
 }
 
 void fragment() {

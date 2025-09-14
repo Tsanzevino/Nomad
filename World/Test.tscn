@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c1xgfmun1gkuv"]
+[gd_scene load_steps=17 format=3 uid="uid://c1xgfmun1gkuv"]
 
 [ext_resource type="Environment" uid="uid://ba2w1hx6ty0ah" path="res://World/world_environment.tres" id="1_maf25"]
 [ext_resource type="PackedScene" uid="uid://dftm3sdr4grbd" path="res://Player/Player.tscn" id="2_1pd7n"]
@@ -10,9 +10,7 @@
 [ext_resource type="Script" uid="uid://bty00w834ohnb" path="res://Menus/ui_manager.gd" id="8_1pamv"]
 [ext_resource type="Resource" uid="uid://dqv0r2lvbci5e" path="res://Item/Flower/flower.tres" id="8_duxi5"]
 [ext_resource type="Script" uid="uid://cllbqbi85l5s1" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1pd7n"]
-albedo_color = Color(0.27451, 0.678431, 1, 1)
+[ext_resource type="Resource" uid="uid://c5r21j0muhcxe" path="res://World/Generation/Height/default_height_map.tres" id="11_fkr4u"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0j1j"]
 radius = 0.1
@@ -24,13 +22,15 @@ height = 0.2
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mnke"]
 albedo_texture = ExtResource("5_a0j1j")
 
-[node name="Test" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkr4u"]
+transparency = 1
+albedo_color = Color(0.27451, 0.678431, 1, 0.501961)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-use_collision = true
-size = Vector3(50, 1, 50)
-material = SubResource("StandardMaterial3D_1pd7n")
+[sub_resource type="PlaneMesh" id="PlaneMesh_fkr4u"]
+material = SubResource("StandardMaterial3D_fkr4u")
+size = Vector2(1392, 1392)
+
+[node name="Test" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("1_maf25")
@@ -89,7 +89,7 @@ material_override = SubResource("StandardMaterial3D_4mnke")
 use_collision = true
 
 [node name="Player" parent="." instance=ExtResource("2_1pd7n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 5)
 
 [node name="UIManager" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -100,4 +100,9 @@ visible = false
 
 [node name="WorldGenerator" type="Node3D" parent="."]
 script = ExtResource("10_v5n54")
+heightMap = ExtResource("11_fkr4u")
 metadata/_custom_type_script = "uid://cllbqbi85l5s1"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
+mesh = SubResource("PlaneMesh_fkr4u")
