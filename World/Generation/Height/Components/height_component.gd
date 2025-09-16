@@ -2,7 +2,7 @@ class_name HeightComponent extends Resource
 
 @export var heightSampler : Curve
 @export var noise : FastNoiseLite
-@export var weight : float = 1.0
+@export var weight : float = 0.0
 @export var seed_offset : int = 1
 
 func set_seed(s : int):

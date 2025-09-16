@@ -2,7 +2,7 @@ extends SpringArm3D
 
 const sensitivity_scale : float = 0.1
 const pitch_limit : float = 80.0
-
+const zoomSpeed : float = 10.0
 # Camera Settings
 @export var sensitivity : float = 0.2
 
@@ -18,6 +18,11 @@ func _process(delta):
 	(get_parent() as Node3D).rotation.y -= input.x
 	rotation.x = clamp(rotation.x - input.y, deg_to_rad(-pitch_limit), deg_to_rad(pitch_limit))
 	
+	if Input.is_action_pressed("camera_zoom_in"):
+		print("zooming")
+		spring_length = max(0, spring_length - zoomSpeed * delta)
+	if Input.is_action_pressed("camera_zoom_out"):
+		spring_length += zoomSpeed * delta
 
 func _input(event):
 	# Actual Camera controls

@@ -8,7 +8,7 @@ static func get_chunk_coordinates(position : Vector2) -> Vector2i:
 		print("ERROR: Chunk Size not set")
 		return Vector2i.ZERO
 	
-	return ((position - Vector2(chunkSize / 2, chunkSize / 2.0)) / chunkSize).floor() + Vector2(1.0,1.0)
+	return ((position - Vector2(chunkSize / 2.0, chunkSize / 2.0)) / chunkSize).floor() + Vector2(1.0,1.0)
 
 static func get_chunk(chunkCoords : Vector2i) -> Chunk:
 	if not chunkMap.has(chunkCoords): return null

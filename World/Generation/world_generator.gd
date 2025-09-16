@@ -9,7 +9,7 @@ class_name WorldGenerator extends Node3D
 @export var yOffset : float = 0.0
 
 @export var material : Material
-@export var selectedMaterial : Material
+
 var player : Node3D
 var currentChunkCoords : Vector2i
 var chunkLoadingQueue : ChunkLoadingQueue
@@ -40,14 +40,21 @@ func _physics_process(_delta):
 	if newCoords == currentChunkCoords:
 		return
 	print(newCoords)
-	# Start a timer for testing
-	var timeStart = Time.get_ticks_msec()
 	# Get the direction the chunk changed in
 	var moveDirection : Vector2i = newCoords - currentChunkCoords
 	currentChunkCoords = newCoords
+	# Its possible to move diagonally, and that has to be treated differently
+	if moveDirection.length() > 1.1:
+		update_loaded_chunks(Vector2i(moveDirection.x, 0), currentChunkCoords - Vector2i(0, moveDirection.y))
+		update_loaded_chunks(Vector2i(0, moveDirection.y), currentChunkCoords)
+	else:
+		update_loaded_chunks(moveDirection, currentChunkCoords)
+
+
+func update_loaded_chunks(moveDirection : Vector2i, coords : Vector2i):
 	# Load new chunks
-	var xRange := [(moveDirection.x * chunkRadius) + newCoords.x] if moveDirection.x != 0 else range(-chunkRadius + newCoords.x, chunkRadius + newCoords.x + 1)
-	var zRange := [(moveDirection.y * chunkRadius) + newCoords.y] if moveDirection.y != 0 else range(-chunkRadius + newCoords.y, chunkRadius + newCoords.y + 1)
+	var xRange := [(moveDirection.x * chunkRadius) + coords.x] if moveDirection.x != 0 else range(-chunkRadius + coords.x, chunkRadius + coords.x + 1)
+	var zRange := [(moveDirection.y * chunkRadius) + coords.y] if moveDirection.y != 0 else range(-chunkRadius + coords.y, chunkRadius + coords.y + 1)
 	for x in xRange:
 		for z in zRange:
 			var chunkCoords := Vector2i(x,z)
@@ -59,8 +66,8 @@ func _physics_process(_delta):
 				# Chunk found in cache, reload it
 				add_child(chunk)
 	# Remove old chunks
-	xRange = [(-moveDirection.x * (chunkRadius + 1)) + newCoords.x] if moveDirection.x != 0 else range(-chunkRadius + newCoords.x, chunkRadius + newCoords.x + 1)
-	zRange = [(-moveDirection.y * (chunkRadius + 1)) + newCoords.y] if moveDirection.y != 0 else range(-chunkRadius + newCoords.y, chunkRadius + newCoords.y + 1)
+	xRange = [(-moveDirection.x * (chunkRadius + 1)) + coords.x] if moveDirection.x != 0 else range(-chunkRadius + coords.x, chunkRadius + coords.x + 1)
+	zRange = [(-moveDirection.y * (chunkRadius + 1)) + coords.y] if moveDirection.y != 0 else range(-chunkRadius + coords.y, chunkRadius + coords.y + 1)
 	for x in xRange:
 		for z in zRange:
 			var remove := Vector2i(x,z)
@@ -68,7 +75,6 @@ func _physics_process(_delta):
 				chunkLoadingQueue.remove_chunk(remove)
 			else:
 				remove_child(ChunkCache.get_chunk(remove))
-	print("Loading new chunks took ", (Time.get_ticks_msec() - timeStart) / 1000.0, " seconds")
 
 func create_new_chunk(coords : Vector2i) -> Chunk:
 	var chunk := Chunk.new()
@@ -84,7 +90,6 @@ func load_chunks(coords : Vector2i, limit : int):
 	var amount = min(limit,chunkLoadingQueue.size())
 	if amount == 0:
 		return
-	print("loading ", amount, " chunks")
 	for n in amount:
 		create_new_chunk(chunkLoadingQueue.pop(coords))
 
@@ -94,3 +99,6 @@ func prepare_terrain_generator():
 	TerrainGenerator.resolution = resolution
 	TerrainGenerator.yOffset = yOffset
 	TerrainGenerator.heightMap = heightMap
+	if material is ShaderMaterial:
+		material.set_shader_parameter("min_height", heightMap.minHeight * amplitude)
+		material.set_shader_parameter("max_height", heightMap.maxHeight * amplitude)

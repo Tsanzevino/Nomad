@@ -10,8 +10,8 @@
 [ext_resource type="Script" uid="uid://bty00w834ohnb" path="res://Menus/ui_manager.gd" id="8_1pamv"]
 [ext_resource type="Resource" uid="uid://dqv0r2lvbci5e" path="res://Item/Flower/flower.tres" id="8_duxi5"]
 [ext_resource type="Script" uid="uid://cllbqbi85l5s1" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
-[ext_resource type="Resource" uid="uid://c5r21j0muhcxe" path="res://World/Generation/Height/default_height_map.tres" id="11_fkr4u"]
-[ext_resource type="Material" uid="uid://03cdl71c6l7f" path="res://Shaders/texture_shader.tres" id="12_ehbg5"]
+[ext_resource type="Resource" uid="uid://ceb3gkaye6k0c" path="res://World/Generation/Height/larger_mountains.tres" id="11_ehbg5"]
+[ext_resource type="Material" uid="uid://dmije7001qay7" path="res://Shaders/height_shader.tres" id="12_ehbg5"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0j1j"]
 radius = 0.1
@@ -102,14 +102,14 @@ visible = false
 
 [node name="WorldGenerator" type="Node3D" parent="."]
 script = ExtResource("10_v5n54")
-chunkRadius = 10
+chunkRadius = 16
 chunkSize = 16
-heightMap = ExtResource("11_fkr4u")
+heightMap = ExtResource("11_ehbg5")
 resolution = 1
 material = ExtResource("12_ehbg5")
-selectedMaterial = ExtResource("12_ehbg5")
 metadata/_custom_type_script = "uid://cllbqbi85l5s1"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
+visible = false
 mesh = SubResource("PlaneMesh_fkr4u")

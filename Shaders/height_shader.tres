@@ -5,5 +5,5 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_l2617")
-shader_parameter/min_height = 100.0
+shader_parameter/min_height = -0.5
 shader_parameter/max_height = 0.5
