@@ -4,7 +4,7 @@ varying vec3 color;
 varying float vertex_y;
 varying float position;
 
-uniform float min_height = 100;
+uniform float min_height = 1;
 uniform float max_height = 0;
 
 float inverseLerp(float a, float b, float value) {

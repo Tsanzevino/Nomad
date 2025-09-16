@@ -11,5 +11,5 @@ script = ExtResource("5_ad06o")
 components = Array[ExtResource("1_yvlkw")]([ExtResource("4_vpkeh"), ExtResource("2_8pxh3"), ExtResource("3_b6o85")])
 maxHeight = 50.0
 minHeight = -50.0
-heightSeed = 361
+heightSeed = -5039
 metadata/_custom_type_script = "uid://c537kbfx8g6dn"

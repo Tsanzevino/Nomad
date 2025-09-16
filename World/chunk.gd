@@ -1,0 +1,1 @@
+class_name Chunk extends MeshInstance3D
