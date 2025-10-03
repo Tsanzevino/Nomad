@@ -34,7 +34,7 @@ func _ready():
 
 func interact():
 	# Give the player the item
-	collect_item.emit(item, (randi() % 4) + 1)
+	collect_item.emit(item, 1)
 	# Remove the interactable from the world
 	# queue_free()
 

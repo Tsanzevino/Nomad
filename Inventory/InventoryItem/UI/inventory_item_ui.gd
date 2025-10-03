@@ -1,4 +1,6 @@
-class_name InventoryItemUI extends PanelContainer
+class_name InventoryItemUI extends Button
+
+signal focused(node : InventoryItemUI)
 
 func update_item(image : Texture2D, count : int):
 	change_image(image)
@@ -15,3 +17,10 @@ func change_count(count : int):
 		%Count.text = ""
 		return
 	%Count.text = str(count)
+
+func _on_mouse_entered():
+	grab_focus()
+
+func _on_focus_entered():
+	print(name, ": entered")
+	focused.emit(self)

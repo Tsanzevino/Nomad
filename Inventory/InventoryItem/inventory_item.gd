@@ -1,4 +1,4 @@
-class_name InventoryItem extends Resource
+class_name InventoryItem extends Object
 
 var item : Item
 var count : int

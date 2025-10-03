@@ -1,13 +1,15 @@
-class_name InventoryManager extends Node3D
+class_name InventoryManager extends Node
 
-var inventory : Inventory = preload("res://Player/PlayerInventory/inventory.tres")
-@export var size : int = 12
+@export var hotbarSize : int = 4
+var hotbar : Inventory
+var leftSlot : Pouch
+var rightSlot : Pouch
+var packSlot : Pack
 
 signal inventory_updated
 
 func _ready():
-	inventory.items.resize(size)
-	print(inventory.items.size())
+	hotbar = Inventory.new(hotbarSize)
 	for i in get_tree().get_nodes_in_group("Collectables"):
 		i.collect_item.connect(collect_item)
 
@@ -15,15 +17,30 @@ func _process(_delta):
 	if Input.is_action_just_pressed("sort"):
 		sort()
 
-func resize_inventory(newSize : int):
-	size = newSize
-	inventory.items.resize(newSize)
+func sort():
+	hotbar.sort()
+	if leftSlot != null:
+		leftSlot.inventory.sort()
+	if rightSlot != null:
+		rightSlot.inventory.sort()
+	if packSlot != null:
+		packSlot.inventory.sort()
 	inventory_updated.emit()
 
 func collect_item(item : Item, amount : int) -> int:
+	amount = collect_item_in(item, amount, hotbar)
+	if leftSlot != null and amount > 0:
+		amount = collect_item_in(item, amount, leftSlot.inventory)
+	if rightSlot != null and amount > 0:
+		amount = collect_item_in(item, amount, rightSlot.inventory)
+	if packSlot != null and amount > 0:
+		amount = collect_item_in(item, amount, packSlot.inventory)
+	return amount
+
+func collect_item_in(item : Item, amount : int, inventory : Inventory) -> int:
 	# First pass pairs items with existing stacks
 	var i : InventoryItem
-	for n in range(size):
+	for n in range(inventory.size):
 		i = inventory.items[n]
 		if i != null and i.equals(item):
 			amount = i.increase_count(amount)
@@ -31,7 +48,7 @@ func collect_item(item : Item, amount : int) -> int:
 				inventory_updated.emit()
 				return 0
 	# Second pass puts items in null slots
-	for n in range(size):
+	for n in range(inventory.size):
 		i = inventory.items[n]
 		if i == null:
 			i = create_inventory_item(item)
@@ -43,12 +60,30 @@ func collect_item(item : Item, amount : int) -> int:
 	inventory_updated.emit()
 	return amount
 
-func use_item(item : Item, amount : int) -> bool:
-	if not validate_item_count(item, amount):
-		print("Failed to use item %s: not enough in inventory" % item.name)
+func consume_item(item : Item, amount : int) -> bool:
+	# First check that there is enough of item
+	var amtInInventory : int = hotbar.count_item(item)
+	if leftSlot != null and amtInInventory < amount:
+		amtInInventory += leftSlot.inventory.count_item(item)
+	if rightSlot != null and amtInInventory < amount:
+		amtInInventory += rightSlot.inventory.count_item(item)
+	if packSlot != null and amtInInventory < amount:
+		amtInInventory += packSlot.inventory.count_item(item)
+	if amtInInventory < amount:
 		return false
+	# Then consume the required amount
+	amount = consume_item_from(item, amount, hotbar)
+	if leftSlot != null and amount > 0:
+		amount = consume_item_from(item, amount, leftSlot.inventory)
+	if rightSlot != null and amount > 0:
+		amount = consume_item_from(item, amount, rightSlot.inventory)
+	if packSlot != null and amount > 0:
+		amount = consume_item_from(item, amount, packSlot.inventory)
+	return true
+
+func consume_item_from(item : Item, amount : int, inventory : Inventory) -> int:
 	var i : InventoryItem
-	for n in range(size):
+	for n in range(inventory.size):
 		i = inventory.items[n]
 		if i != null and i.equals(item):
 			amount = i.decrease_count(amount)
@@ -56,45 +91,9 @@ func use_item(item : Item, amount : int) -> bool:
 				inventory.items[n] = null
 			if amount == 0:
 				inventory_updated.emit()
-				return true
+				return amount
 	inventory_updated.emit()
-	return true
-
-## Validates that the inventory contains the
-## specified amounts of a list of items.
-func validate_item_counts(items : Array[Item], amounts : Array[int]) -> bool:
-	if items.size() != amounts.size(): 
-		print("Validation failed: item and amount arrays differ in size")
-		return false
-	for i in range(items.size()):
-		if not validate_item_count(items[i], amounts[i]): return false
-	return true
-
-## Validates that the inventory contains the
-## specified amount of a certain item.
-func validate_item_count(item : Item, amount : int) -> bool:
-	var amtInInventory : int = 0
-	var i : InventoryItem
-	for n in range(size):
-		i = inventory.items[n]
-		if i != null and i.equals(item):
-			amtInInventory += i.count
-	return amtInInventory >= amount
-
-func sort():
-	inventory.items.sort_custom(compare)
-	inventory_updated.emit()
-
-func compare(a : InventoryItem, b : InventoryItem) -> bool:
-	if a == null:
-		return false
-	if b == null:
-		return true
-	if a.get_item_id() < b.get_item_id():
-		return true
-	elif a.get_item_id() == b.get_item_id():
-		return a.count > b.count
-	return false
+	return amount
 
 ## Creates an InventoryItem from the given Item
 func create_inventory_item(item : Item) -> InventoryItem:

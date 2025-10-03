@@ -7,5 +7,4 @@
 script = ExtResource("1_hyii0")
 name = "Onion"
 texture = ExtResource("2_h2yj4")
-stackSize = 16
 metadata/_custom_type_script = "uid://gcq5s0nq2dw"

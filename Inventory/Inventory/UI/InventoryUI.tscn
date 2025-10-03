@@ -1,0 +1,99 @@
+[gd_scene load_steps=4 format=3 uid="uid://waotf4yaf1jt"]
+
+[ext_resource type="Script" uid="uid://cnarq1br1knvu" path="res://Inventory/Inventory/UI/inventory_ui.gd" id="1_bn5p1"]
+[ext_resource type="PackedScene" uid="uid://bn6dhvhiba5y8" path="res://Inventory/InventoryItem/UI/inventory_upgrade_ui.tscn" id="2_3gt7l"]
+
+[sub_resource type="Theme" id="Theme_dyeau"]
+
+[node name="InventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bn5p1")
+
+[node name="LeftPouchInventory" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme = SubResource("Theme_dyeau")
+columns = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="LeftPouchItem" parent="." instance=ExtResource("2_3gt7l")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.9
+anchor_right = 0.3
+anchor_bottom = 0.9
+
+[node name="Hotbar" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -106.0
+offset_top = -96.0
+offset_right = 106.0
+grow_horizontal = 2
+grow_vertical = 0
+columns = 4
+
+[node name="RightPouchItem" parent="." instance=ExtResource("2_3gt7l")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_top = 0.9
+anchor_right = 0.7
+anchor_bottom = 0.9
+
+[node name="RightPouchInventory" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+columns = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="PackItem" parent="." instance=ExtResource("2_3gt7l")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.75
+anchor_bottom = 0.75
+
+[node name="PackInventory" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.65
+anchor_right = 0.5
+anchor_bottom = 0.65
+grow_horizontal = 2
+grow_vertical = 0
+columns = 8
+
+[connection signal="focused" from="LeftPouchItem" to="." method="_on_change_focus"]
+[connection signal="focused" from="RightPouchItem" to="." method="_on_change_focus"]
+[connection signal="focused" from="PackItem" to="." method="_on_change_focus"]

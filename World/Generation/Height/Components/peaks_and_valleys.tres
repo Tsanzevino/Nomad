@@ -16,5 +16,4 @@ script = ExtResource("1_wjy5w")
 heightSampler = SubResource("Curve_erx5b")
 noise = SubResource("FastNoiseLite_fi3r6")
 weight = 2.0
-seed_offset = 1
 metadata/_custom_type_script = "uid://xu4q47ndp3fs"
