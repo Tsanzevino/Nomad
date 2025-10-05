@@ -1,6 +1,6 @@
 class_name ItemSpawner extends Node
 
-@export var it : Area3D
+
 
 func spawn(item : Item, amount : int, mesh : MeshInstance3D = null):
 	var c = TimedCollectable.new()
