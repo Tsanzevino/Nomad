@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Pack" load_steps=3 format=3 uid="uid://d4k624ec6ujmj"]
+
+[ext_resource type="Script" uid="uid://b0orpwpk2t51c" path="res://Item/InventoryUpgrade/pack.gd" id="1_bhrxm"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bhrxm"]
+size = Vector2(64, 64)
+
+[resource]
+script = ExtResource("1_bhrxm")
+size = 8
+name = "Backpack"
+texture = SubResource("PlaceholderTexture2D_bhrxm")
+maxStackSize = 1
+id = 12345
+metadata/_custom_type_script = "uid://b0orpwpk2t51c"

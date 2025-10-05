@@ -1,14 +1,27 @@
-[gd_scene load_steps=9 format=3 uid="uid://dftm3sdr4grbd"]
+[gd_scene load_steps=19 format=3 uid="uid://dftm3sdr4grbd"]
 
-[ext_resource type="Script" uid="uid://u7kyyarqg8k" path="res://Player/player_movement.gd" id="1_3qydi"]
+[ext_resource type="Script" uid="uid://u7kyyarqg8k" path="res://Player/player.gd" id="1_3qydi"]
 [ext_resource type="PackedScene" uid="uid://cr1n63o6s17fn" path="res://Player/Camera/ThirdPersonCamera.tscn" id="2_q3lat"]
 [ext_resource type="Script" uid="uid://bf3lynatpp3ki" path="res://Interact/Interactor/interactor.gd" id="3_tok1r"]
 [ext_resource type="Script" uid="uid://d0l6gxjop07vk" path="res://Player/PlayerInventory/inventory_manager.gd" id="4_ddoul"]
+[ext_resource type="Script" uid="uid://bty00w834ohnb" path="res://Menus/ui_manager.gd" id="5_6ysni"]
+[ext_resource type="Script" uid="uid://b12ioqoy2x3as" path="res://Item/item_spawner.gd" id="5_p7tob"]
+[ext_resource type="PackedScene" uid="uid://waotf4yaf1jt" path="res://Inventory/Inventory/UI/InventoryUI.tscn" id="6_vlldt"]
+[ext_resource type="Script" uid="uid://c4iffdcyllkh5" path="res://Player/PlayerMovement/movement_state_machine.gd" id="7_vlldt"]
+[ext_resource type="Script" uid="uid://e4trnkwmvi3l" path="res://Player/PlayerMovement/falling.gd" id="8_s1rgi"]
+[ext_resource type="Script" uid="uid://tu7v0dad82vd" path="res://Player/PlayerMovement/idle.gd" id="9_5wa8t"]
+[ext_resource type="Script" uid="uid://dvp2u1osovylg" path="res://Player/PlayerMovement/jumping.gd" id="10_p7tob"]
+[ext_resource type="Script" uid="uid://cupgiwhkfhlg8" path="res://Player/PlayerMovement/sprinting.gd" id="11_dm7nj"]
+[ext_resource type="Script" uid="uid://c878easmdovaa" path="res://Player/PlayerMovement/walking.gd" id="12_3mea3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l2ndj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q3lat"]
 albedo_color = Color(0.478431, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6ysni"]
+radius = 0.2
+height = 0.1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l2ndj"]
 
@@ -28,6 +41,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("CapsuleMesh_l2ndj")
 surface_material_override/0 = SubResource("StandardMaterial3D_q3lat")
 
+[node name="Nose" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49826646, -0.4900143)
+visible = false
+mesh = SubResource("SphereMesh_6ysni")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 shape = SubResource("CapsuleShape3D_l2ndj")
@@ -42,6 +60,38 @@ script = ExtResource("3_tok1r")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
 shape = SubResource("SphereShape3D_ddoul")
 
-[node name="InventoryManager" type="Node" parent="." groups=["Inventory"]]
+[node name="InventoryManager" type="Node" parent="." node_paths=PackedStringArray("ui")]
+unique_name_in_owner = true
 process_mode = 3
 script = ExtResource("4_ddoul")
+ui = NodePath("../UIManager/InventoryUI")
+
+[node name="ItemSpawner" type="Node" parent="InventoryManager"]
+script = ExtResource("5_p7tob")
+
+[node name="UIManager" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("5_6ysni")
+
+[node name="InventoryUI" parent="UIManager" instance=ExtResource("6_vlldt")]
+visible = false
+
+[node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("7_vlldt")
+initial_state = NodePath("Falling")
+metadata/_custom_type_script = "uid://c4iffdcyllkh5"
+
+[node name="Falling" type="Node" parent="MovementStateMachine"]
+script = ExtResource("8_s1rgi")
+
+[node name="Idle" type="Node" parent="MovementStateMachine"]
+script = ExtResource("9_5wa8t")
+
+[node name="Jumping" type="Node" parent="MovementStateMachine"]
+script = ExtResource("10_p7tob")
+
+[node name="Sprinting" type="Node" parent="MovementStateMachine"]
+script = ExtResource("11_dm7nj")
+
+[node name="Walking" type="Node" parent="MovementStateMachine"]
+script = ExtResource("12_3mea3")

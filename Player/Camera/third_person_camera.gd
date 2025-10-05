@@ -32,6 +32,3 @@ func _input(event):
 	(get_parent() as Node3D).rotation.y -= input.x
 	rotation.x = clamp(rotation.x - input.y, deg_to_rad(-pitch_limit), deg_to_rad(pitch_limit))
 	
-
-func get_camera_forward():
-	return -$Camera3D.global_basis.z

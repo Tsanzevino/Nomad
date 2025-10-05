@@ -8,6 +8,7 @@ func _process(_delta):
 				c.visible = !c.visible
 	if Input.is_action_just_pressed("pause"):
 		toggle_pause()
+		print("tried to pause")
 
 func toggle_pause():
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:

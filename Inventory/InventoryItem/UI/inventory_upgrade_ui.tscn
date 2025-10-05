@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bn6dhvhiba5y8"]
+[gd_scene load_steps=2 format=3 uid="uid://bn6dhvhiba5y8"]
 
 [ext_resource type="Script" uid="uid://dv5aauwkese6s" path="res://Inventory/InventoryItem/UI/inventory_upgrade_ui.gd" id="1_m2dx7"]
-[ext_resource type="Texture2D" uid="uid://dctf8pkgos8n4" path="res://Item/Hemp/hemp.png" id="2_m2dx7"]
 
 [node name="InventoryUpgradeUI" type="Button"]
 custom_minimum_size = Vector2(69, 69)
@@ -33,7 +32,6 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_m2dx7")
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

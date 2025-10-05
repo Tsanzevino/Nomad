@@ -5,7 +5,7 @@ func _enter_tree():
 	collision_layer = 128
 	collision_mask = 8
 
-func interact():
+func interact(_player : Player):
 	print("I was interacted with!")
 
 func set_active():

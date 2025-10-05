@@ -13,7 +13,7 @@ func _ready():
 func _process(_delta : float):
 	if (Input.is_action_just_pressed("interact")):
 		if bestTarget != null:
-			bestTarget.interact()
+			bestTarget.interact(owner)
 
 func _physics_process(_delta : float):
 	var newBestTarget : Interactable = get_best_target()

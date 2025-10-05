@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InventoryUpgrade" load_steps=2 format=3 uid="uid://cd6w8re76iajs"]
+
+[ext_resource type="Script" uid="uid://djakn6kdo2v63" path="res://Item/InventoryUpgrade/inventory_upgrade.gd" id="1_4q68f"]
+
+[resource]
+script = ExtResource("1_4q68f")
+size = 4
+name = "Hotbar"
+maxStackSize = 1
+id = 1000000
+metadata/_custom_type_script = "uid://djakn6kdo2v63"

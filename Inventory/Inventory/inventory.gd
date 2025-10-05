@@ -2,12 +2,10 @@ class_name Inventory extends Object
 
 var items : Array[InventoryItem]
 var size : int
-var selectedItem : int
 
 func _init(s : int = 1):
 	size = s
 	items.resize(size)
-	selectedItem = -1
 
 ## Counts how many of each item are in the inventory.
 ## Returns an array with the counts of each item.
