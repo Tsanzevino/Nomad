@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dftm3sdr4grbd"]
+[gd_scene load_steps=22 format=3 uid="uid://dftm3sdr4grbd"]
 
 [ext_resource type="Script" uid="uid://u7kyyarqg8k" path="res://Player/player.gd" id="1_3qydi"]
 [ext_resource type="PackedScene" uid="uid://cr1n63o6s17fn" path="res://Player/Camera/ThirdPersonCamera.tscn" id="2_q3lat"]
@@ -6,8 +6,11 @@
 [ext_resource type="Script" uid="uid://d0l6gxjop07vk" path="res://Player/PlayerInventory/inventory_manager.gd" id="4_ddoul"]
 [ext_resource type="Script" uid="uid://bty00w834ohnb" path="res://Menus/ui_manager.gd" id="5_6ysni"]
 [ext_resource type="Script" uid="uid://b12ioqoy2x3as" path="res://Item/item_spawner.gd" id="5_p7tob"]
+[ext_resource type="Script" uid="uid://bsyougpg2vp6v" path="res://Crafting/recipe_manager.gd" id="6_dm7nj"]
 [ext_resource type="PackedScene" uid="uid://waotf4yaf1jt" path="res://Inventory/Inventory/UI/InventoryUI.tscn" id="6_vlldt"]
+[ext_resource type="Script" uid="uid://8swhgv0ruecc" path="res://Crafting/recipe.gd" id="7_7v5gs"]
 [ext_resource type="Script" uid="uid://c4iffdcyllkh5" path="res://Player/PlayerMovement/movement_state_machine.gd" id="7_vlldt"]
+[ext_resource type="Resource" uid="uid://7sn335pssodb" path="res://Item/InventoryUpgrade/Pocket/pocket_recipe_one.tres" id="8_8sa4y"]
 [ext_resource type="Script" uid="uid://e4trnkwmvi3l" path="res://Player/PlayerMovement/falling.gd" id="8_s1rgi"]
 [ext_resource type="Script" uid="uid://tu7v0dad82vd" path="res://Player/PlayerMovement/idle.gd" id="9_5wa8t"]
 [ext_resource type="Script" uid="uid://dvp2u1osovylg" path="res://Player/PlayerMovement/jumping.gd" id="10_p7tob"]
@@ -68,6 +71,12 @@ ui = NodePath("../UIManager/InventoryUI")
 
 [node name="ItemSpawner" type="Node" parent="InventoryManager"]
 script = ExtResource("5_p7tob")
+metadata/_custom_type_script = "uid://b12ioqoy2x3as"
+
+[node name="RecipeManager" type="Node" parent="InventoryManager"]
+script = ExtResource("6_dm7nj")
+recipes = Array[ExtResource("7_7v5gs")]([ExtResource("8_8sa4y")])
+metadata/_custom_type_script = "uid://bsyougpg2vp6v"
 
 [node name="UIManager" type="CanvasLayer" parent="."]
 process_mode = 3

@@ -1,3 +1,3 @@
-@abstract class_name Condition extends Object
+@abstract class_name Condition extends Resource
 
 @abstract func is_satisified() -> bool

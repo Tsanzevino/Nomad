@@ -35,7 +35,12 @@ func setup_ui():
 func _process(_delta):
 	if Input.is_action_just_pressed("sort"):
 		sort()
-
+	if Input.is_action_just_pressed("craft"):
+		var recipe : Recipe = get_child(1).find_simple_recipe(ui.get_focused_item())
+		if recipe == null: return
+		consume_item(ui.get_focused_item().item,recipe.ingredients[ui.get_focused_item().item])
+		for result in recipe.results.keys():
+			collect_item(result, recipe.results[result])
 func sort():
 	for i in range(inventories.size()):
 		if inventories[i] != null:
@@ -53,6 +58,8 @@ func collect_item(item : Item, amount : int) -> int:
 		if inventories[i] != null and amount > 0:
 			amount = collect_item_in(item, amount, inventories[i])
 	ui.update()
+	if amount > 0:
+		spawn_item(item, amount)
 	return amount
 
 ## Puts [param amount] of [param item] in the specified inventory.

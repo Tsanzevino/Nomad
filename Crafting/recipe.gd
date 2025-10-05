@@ -1,10 +1,10 @@
-class_name Recipe extends Object
+class_name Recipe extends Resource
 
-var results : Dictionary[Item, int]
+@export var results : Dictionary[Item, int]
 
-var ingredients : Dictionary[Item, int]
+@export var ingredients : Dictionary[Item, int]
 
-var conditions : Array[Condition]
+@export var conditions : Array[Condition] = []
 
 func is_craftable(inventory : Inventory) -> bool:
 	if not passes_conditions():
@@ -21,6 +21,6 @@ func passes_conditions() -> bool:
 
 func has_enough_items(inventory : Inventory) -> bool:
 	for ingredient in ingredients.keys():
-		if not inventory.validate_item_count(ingredient,ingredients[ingredient]):
+		if ingredients[ingredient] > inventory.count_item(ingredient):
 			return false
 	return true

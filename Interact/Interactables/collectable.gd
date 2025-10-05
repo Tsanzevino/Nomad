@@ -9,7 +9,7 @@ var nameLabel : Label3D
 @export var hintStr : String = "Collect"
 @export var item : Item
 
-var countFunction := func(): return randi() % 5
+var countFunction := func(): return randi() % 3 + 1
 
 func _enter_tree():
 	add_to_group("Collectables")
@@ -42,7 +42,7 @@ func interact(player : Player):
 	# Give the player the item
 	player.collect_item(item, countFunction.call())
 	# Remove the interactable from the world
-	queue_free()
+	#queue_free()
 
 func set_active():
 	hintLabel.visible = false

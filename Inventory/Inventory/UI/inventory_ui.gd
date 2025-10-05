@@ -95,6 +95,28 @@ func get_inventory(node : Control) -> InventoryManager.InvSlot:
 		_:
 			return InventoryManager.InvSlot.HOTBAR
 
+func get_focused_item() -> InventoryItem:
+	var invSlotA := get_inventory(focusedItem) if (focusedItem is InventoryUpgradeUI)\
+			   else get_inventory(focusedItem.get_parent())
+	match invSlotA :
+		InventoryManager.InvSlot.LEFT_SLOT:
+			var i = InventoryItem.new()
+			i.create_item(invMan.leftSlot)
+			i.count = 1
+			return i
+		InventoryManager.InvSlot.RIGHT_SLOT:
+			var i = InventoryItem.new()
+			i.create_item(invMan.rightSlot)
+			i.count = 1
+			return i
+		InventoryManager.InvSlot.PACK_SLOT:
+			var i = InventoryItem.new()
+			i.create_item(invMan.packSlot)
+			i.count = 1
+			return i
+		_:
+			return invMan.inventories[invSlotA].items[focusedItem.get_index()]
+
 #endregion
 
 #region Update
