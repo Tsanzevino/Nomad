@@ -1,7 +1,5 @@
 class_name ItemSpawner extends Node
 
-
-
 func spawn(item : Item, amount : int, mesh : MeshInstance3D = null):
 	var c = TimedCollectable.new()
 	c.countFunction = func(): return amount
