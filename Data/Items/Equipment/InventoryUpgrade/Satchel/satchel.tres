@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Pack" load_steps=3 format=3 uid="uid://ycwgnfmkafx0"]
+
+[ext_resource type="Script" uid="uid://b0orpwpk2t51c" path="res://Item/pack.gd" id="1_oomyx"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7skbf"]
+size = Vector2(64, 64)
+
+[resource]
+script = ExtResource("1_oomyx")
+size = 4
+name = "Satchel"
+texture = SubResource("PlaceholderTexture2D_7skbf")
+id = 10
+metadata/_custom_type_script = "uid://b0orpwpk2t51c"

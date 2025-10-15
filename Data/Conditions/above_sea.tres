@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="HeightCondition" load_steps=2 format=3 uid="uid://ddrc2y7cd82vs"]
+
+[ext_resource type="Script" uid="uid://bci8d5cotlfv7" path="res://Crafting/Conditions/height_condition.gd" id="1_t788u"]
+
+[resource]
+script = ExtResource("1_t788u")
+maximumHeight = 100000.0
+metadata/_custom_type_script = "uid://bci8d5cotlfv7"

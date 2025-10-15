@@ -32,6 +32,7 @@ func generate_world():
 			chunksGenerated += 1
 			print("progress : ", chunksGenerated, " / ", chunksToGenerate)
 	print("Took ", (Time.get_ticks_msec() - timeStart) / 1000.0, " seconds")
+	print("Normal Generation Time: %d\nVertex Generation Time: %d\nNoise Generation Time: %d\n" % [TerrainGenerator.totalNormalTime, TerrainGenerator.totalVertexTime, TerrainGenerator.totalNoiseTime])
 
 func _physics_process(_delta):
 	var coords = Vector2(player.global_position.x,player.global_position.z)
@@ -82,7 +83,7 @@ func create_new_chunk(coords : Vector2i) -> Chunk:
 	chunk.position = Vector3(coords.x * chunkSize, 0, coords.y * chunkSize)
 	chunk.material_override = material
 	chunk.mesh = TerrainGenerator.generate_terrain(chunk.global_position)
-	chunk.create_trimesh_collision()
+	#chunk.create_trimesh_collision()
 	ChunkCache.set_chunk(coords,chunk)
 	return chunk
 

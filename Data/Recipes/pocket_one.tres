@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=7 format=3 uid="uid://7sn335pssodb"]
+
+[ext_resource type="Script" uid="uid://cglomerw7mhll" path="res://Crafting/Conditions/condition.gd" id="1_qrc72"]
+[ext_resource type="Script" uid="uid://gcq5s0nq2dw" path="res://Item/item.gd" id="2_0vhwt"]
+[ext_resource type="Resource" uid="uid://ddrc2y7cd82vs" path="res://Data/Conditions/above_sea.tres" id="2_qrc72"]
+[ext_resource type="Resource" uid="uid://uh3o6lw6au6n" path="res://Data/Items/Equipment/InventoryUpgrade/Pocket/pocket.tres" id="3_u4r2x"]
+[ext_resource type="Resource" uid="uid://c2kwe4lia1yjf" path="res://Data/Items/Stackables/Hemp/hemp.tres" id="4_0vhwt"]
+[ext_resource type="Script" uid="uid://8swhgv0ruecc" path="res://Crafting/Recipes/recipe.gd" id="5_yqes1"]
+
+[resource]
+script = ExtResource("5_yqes1")
+results = Dictionary[ExtResource("2_0vhwt"), int]({
+ExtResource("3_u4r2x"): 1
+})
+ingredients = Dictionary[ExtResource("2_0vhwt"), int]({
+ExtResource("4_0vhwt"): 3
+})
+conditions = Array[ExtResource("1_qrc72")]([ExtResource("2_qrc72")])
+metadata/_custom_type_script = "uid://8swhgv0ruecc"

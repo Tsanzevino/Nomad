@@ -23,9 +23,10 @@ func increase_count(amount : int) -> int:
 	var overflow = 0
 	# If the new count exceeds the max stack size,
 	# take the overflow and clamp to max stack size
-	if (newCount > item.maxStackSize):
-		overflow = newCount - item.maxStackSize
-		newCount = item.maxStackSize
+	var maxStack : int = 1 if not (item is Stackable) else item.maxStackSize
+	if (newCount > maxStack):
+		overflow = newCount - maxStack
+		newCount = maxStack
 	count = newCount
 	return overflow
 

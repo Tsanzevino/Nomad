@@ -1,3 +1,4 @@
+@icon("res://World/Generation/Height/height_map_icon.png")
 class_name HeightMap extends Resource
 
 @export var components : Array[HeightComponent]

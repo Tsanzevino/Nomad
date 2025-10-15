@@ -1,17 +1,17 @@
 [gd_scene load_steps=18 format=3 uid="uid://c1xgfmun1gkuv"]
 
-[ext_resource type="Environment" uid="uid://ba2w1hx6ty0ah" path="res://World/world_environment.tres" id="1_maf25"]
+[ext_resource type="Environment" uid="uid://ba2w1hx6ty0ah" path="res://Data/World/world_environment.tres" id="1_maf25"]
 [ext_resource type="PackedScene" uid="uid://dftm3sdr4grbd" path="res://Player/Player.tscn" id="2_1pd7n"]
 [ext_resource type="Script" uid="uid://cdo7cll45dnsw" path="res://Interact/Interactables/timed_collectable.gd" id="2_ehbg5"]
-[ext_resource type="Resource" uid="uid://ycwgnfmkafx0" path="res://Item/InventoryUpgrade/satchel.tres" id="3_ehbg5"]
+[ext_resource type="Resource" uid="uid://ycwgnfmkafx0" path="res://Data/Items/Equipment/InventoryUpgrade/Satchel/satchel.tres" id="3_ehbg5"]
+[ext_resource type="Resource" uid="uid://b6jd4rwk0au2f" path="res://Data/Items/Stackables/Onion/onion.tres" id="3_v01c2"]
 [ext_resource type="Script" uid="uid://bcc4qtsm7qfil" path="res://Interact/Interactables/collectable.gd" id="4_3c1nr"]
-[ext_resource type="Resource" uid="uid://cmum4x2627tno" path="res://Item/Hemp/hemp.tres" id="5_1pamv"]
-[ext_resource type="Texture2D" uid="uid://db2q2rufpf1mw" path="res://Item/Onion/green_onion.png" id="5_a0j1j"]
-[ext_resource type="Resource" uid="uid://d4k624ec6ujmj" path="res://Item/InventoryUpgrade/backpack.tres" id="5_ehbg5"]
-[ext_resource type="Resource" uid="uid://uh3o6lw6au6n" path="res://Item/InventoryUpgrade/Pocket/pocket.tres" id="5_v01c2"]
+[ext_resource type="Texture2D" uid="uid://db2q2rufpf1mw" path="res://Data/Items/Stackables/Onion/green_onion.png" id="5_a0j1j"]
+[ext_resource type="Resource" uid="uid://d4k624ec6ujmj" path="res://Data/Items/Equipment/InventoryUpgrade/Backpack/backpack.tres" id="5_ehbg5"]
+[ext_resource type="Resource" uid="uid://c2kwe4lia1yjf" path="res://Data/Items/Stackables/Hemp/hemp.tres" id="5_v5n54"]
 [ext_resource type="Script" uid="uid://cllbqbi85l5s1" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
-[ext_resource type="Resource" uid="uid://ceb3gkaye6k0c" path="res://World/Generation/Height/larger_mountains.tres" id="11_ehbg5"]
-[ext_resource type="Material" uid="uid://dmije7001qay7" path="res://Shaders/height_shader.tres" id="12_ehbg5"]
+[ext_resource type="Resource" uid="uid://ceb3gkaye6k0c" path="res://Data/World/Generation/HeightMaps/larger_mountains.tres" id="11_ehbg5"]
+[ext_resource type="Material" uid="uid://dmije7001qay7" path="res://Data/Shaders/height_shader.tres" id="12_ehbg5"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0j1j"]
 radius = 0.1
@@ -39,8 +39,7 @@ environment = ExtResource("1_maf25")
 [node name="Collectable" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 script = ExtResource("2_ehbg5")
-lifetime = 10.0
-item = ExtResource("3_ehbg5")
+item = ExtResource("3_v01c2")
 metadata/_custom_type_script = "uid://cdo7cll45dnsw"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable"]
@@ -52,7 +51,7 @@ mesh = SubResource("SphereMesh_ramaq")
 [node name="Collectable2" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 script = ExtResource("4_3c1nr")
-item = ExtResource("5_ehbg5")
+item = ExtResource("5_v5n54")
 metadata/_custom_type_script = "uid://bcc4qtsm7qfil"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable2"]
@@ -64,7 +63,7 @@ mesh = SubResource("SphereMesh_ramaq")
 [node name="Collectable3" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
 script = ExtResource("4_3c1nr")
-item = ExtResource("5_v01c2")
+item = ExtResource("5_ehbg5")
 metadata/_custom_type_script = "uid://bcc4qtsm7qfil"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable3"]
@@ -75,7 +74,7 @@ mesh = SubResource("SphereMesh_ramaq")
 
 [node name="Collectable4" type="Area3D" parent="."]
 script = ExtResource("4_3c1nr")
-item = ExtResource("5_1pamv")
+item = ExtResource("3_ehbg5")
 metadata/_custom_type_script = "uid://bcc4qtsm7qfil"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Collectable4"]
@@ -95,9 +94,8 @@ size = Vector3(3.98047, 1, 1)
 
 [node name="WorldGenerator" type="Node3D" parent="."]
 script = ExtResource("10_v5n54")
-chunkSize = 16
+chunkRadius = 2
 heightMap = ExtResource("11_ehbg5")
-resolution = 1
 material = ExtResource("12_ehbg5")
 metadata/_custom_type_script = "uid://cllbqbi85l5s1"
 

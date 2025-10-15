@@ -1,3 +1,4 @@
+@icon("res://World/Generation/Height/Components/height_component_icon.png")
 class_name HeightComponent extends Resource
 
 @export var heightSampler : Curve

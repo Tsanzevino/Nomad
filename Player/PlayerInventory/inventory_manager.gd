@@ -8,7 +8,6 @@ class_name InventoryManager extends Node
 ## Inventory Slot enumerator.
 ## Positive values represent inventories.
 ## Negative values represent slots independent from inventories.
-
 enum InvSlot{HOTBAR = 0, LEFT_POUCH = 1, RIGHT_POUCH = 2, PACK = 3, LEFT_SLOT = -1, RIGHT_SLOT = -2, PACK_SLOT = -3}
 
 var inventories : Array[Inventory] = [null, null, null, null]

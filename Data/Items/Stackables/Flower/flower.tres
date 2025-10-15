@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Stackable" load_steps=3 format=3 uid="uid://shdxsvo56mk"]
+
+[ext_resource type="Script" uid="uid://d0i8rak77c77j" path="res://Item/stackable.gd" id="1_oqqyj"]
+[ext_resource type="Texture2D" uid="uid://bxf0qtohptmc8" path="res://Data/Items/Stackables/Flower/flower.png" id="2_pqeel"]
+
+[resource]
+script = ExtResource("1_oqqyj")
+name = "Flower"
+texture = ExtResource("2_pqeel")
+metadata/_custom_type_script = "uid://d0i8rak77c77j"

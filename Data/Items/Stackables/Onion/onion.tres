@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Stackable" load_steps=3 format=3 uid="uid://b6jd4rwk0au2f"]
+
+[ext_resource type="Script" uid="uid://d0i8rak77c77j" path="res://Item/stackable.gd" id="1_g55mm"]
+[ext_resource type="Texture2D" uid="uid://db2q2rufpf1mw" path="res://Data/Items/Stackables/Onion/green_onion.png" id="2_iyqrn"]
+
+[resource]
+script = ExtResource("1_g55mm")
+name = "Onion"
+texture = ExtResource("2_iyqrn")
+id = 2
+metadata/_custom_type_script = "uid://d0i8rak77c77j"

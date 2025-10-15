@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Stackable" load_steps=3 format=3 uid="uid://c2kwe4lia1yjf"]
+
+[ext_resource type="Script" uid="uid://d0i8rak77c77j" path="res://Item/stackable.gd" id="1_dlbpe"]
+[ext_resource type="Texture2D" uid="uid://dctf8pkgos8n4" path="res://Data/Items/Stackables/Hemp/hemp.png" id="2_00kjd"]
+
+[resource]
+script = ExtResource("1_dlbpe")
+name = "Hemp"
+texture = ExtResource("2_00kjd")
+id = 3
+metadata/_custom_type_script = "uid://d0i8rak77c77j"
