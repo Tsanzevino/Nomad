@@ -146,6 +146,13 @@ discard={
 
 3d_physics/layer_1="world"
 3d_physics/layer_2="player"
-3d_physics/layer_3="enemy"
+3d_physics/layer_3="hitbox"
 3d_physics/layer_4="interactor"
+3d_physics/layer_6="enemy"
+3d_physics/layer_7="hurtbox"
 3d_physics/layer_8="interactable"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

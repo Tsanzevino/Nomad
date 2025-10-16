@@ -94,7 +94,8 @@ size = Vector3(3.98047, 1, 1)
 
 [node name="WorldGenerator" type="Node3D" parent="."]
 script = ExtResource("10_v5n54")
-chunkRadius = 2
+chunkRadius = 1
+chunkSize = 8
 heightMap = ExtResource("11_ehbg5")
 material = ExtResource("12_ehbg5")
 metadata/_custom_type_script = "uid://cllbqbi85l5s1"

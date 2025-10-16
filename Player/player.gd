@@ -1,5 +1,8 @@
 class_name Player extends CharacterBody3D
 
+func _ready() -> void:
+	pass
+
 #region Component Utilities
 func get_forward() -> Vector3:
 	var camForward : Vector3 = -%ThirdPersonCamera.global_basis.z
@@ -18,3 +21,15 @@ func get_pivot():
 
 func collect_item(item : Item, amount : int) -> int:
 	return %InventoryManager.collect_item(item,amount)
+
+func _on_health_healed() -> void:
+	pass # Replace with function body.
+
+func _on_health_full_healed() -> void:
+	pass # Replace with function body.
+
+func _on_health_damaged() -> void:
+	pass
+
+func _on_health_died() -> void:
+	pass # Replace with function body.

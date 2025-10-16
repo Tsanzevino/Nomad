@@ -1,6 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://dftm3sdr4grbd"]
+[gd_scene load_steps=26 format=3 uid="uid://dftm3sdr4grbd"]
 
 [ext_resource type="Script" uid="uid://u7kyyarqg8k" path="res://Player/player.gd" id="1_3qydi"]
+[ext_resource type="Shape3D" uid="uid://housrsicata1" path="res://Player/player_collider_shape.tres" id="2_3nb2p"]
 [ext_resource type="PackedScene" uid="uid://cr1n63o6s17fn" path="res://Player/Camera/ThirdPersonCamera.tscn" id="2_q3lat"]
 [ext_resource type="Script" uid="uid://bf3lynatpp3ki" path="res://Interact/Interactor/interactor.gd" id="3_tok1r"]
 [ext_resource type="Script" uid="uid://d0l6gxjop07vk" path="res://Player/PlayerInventory/inventory_manager.gd" id="4_ddoul"]
@@ -16,6 +17,9 @@
 [ext_resource type="Script" uid="uid://dvp2u1osovylg" path="res://Player/PlayerMovement/jumping.gd" id="10_p7tob"]
 [ext_resource type="Script" uid="uid://cupgiwhkfhlg8" path="res://Player/PlayerMovement/sprinting.gd" id="11_dm7nj"]
 [ext_resource type="Script" uid="uid://c878easmdovaa" path="res://Player/PlayerMovement/walking.gd" id="12_3mea3"]
+[ext_resource type="Script" uid="uid://cn7ly1gsryy63" path="res://Components/hurtbox.gd" id="18_d7xyo"]
+[ext_resource type="Script" uid="uid://c6hlqlgk0pbcq" path="res://Components/health.gd" id="19_d7xyo"]
+[ext_resource type="Script" uid="uid://qmm4l31d4oqr" path="res://Components/hitbox.gd" id="20_evw08"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l2ndj"]
 
@@ -26,10 +30,10 @@ albedo_color = Color(0.478431, 0, 0, 1)
 radius = 0.2
 height = 0.1
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l2ndj"]
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_ddoul"]
 radius = 5.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_evw08"]
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 2
@@ -51,7 +55,7 @@ mesh = SubResource("SphereMesh_6ysni")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-shape = SubResource("CapsuleShape3D_l2ndj")
+shape = ExtResource("2_3nb2p")
 
 [node name="ThirdPersonCamera" parent="." instance=ExtResource("2_q3lat")]
 unique_name_in_owner = true
@@ -104,3 +108,31 @@ script = ExtResource("11_dm7nj")
 
 [node name="Walking" type="Node" parent="MovementStateMachine"]
 script = ExtResource("12_3mea3")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+script = ExtResource("18_d7xyo")
+metadata/_custom_type_script = "uid://cn7ly1gsryy63"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = ExtResource("2_3nb2p")
+
+[node name="Health" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("19_d7xyo")
+maxHealth = 100
+metadata/_custom_type_script = "uid://c6hlqlgk0pbcq"
+
+[node name="Hitbox" type="Area3D" parent="."]
+script = ExtResource("20_evw08")
+damage = 10
+metadata/_custom_type_script = "uid://qmm4l31d4oqr"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("SphereShape3D_evw08")
+
+[connection signal="heal" from="Hurtbox" to="Health" method="heal"]
+[connection signal="hurt" from="Hurtbox" to="Health" method="damage"]
+[connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
+[connection signal="died" from="Health" to="." method="_on_health_died"]
+[connection signal="full_healed" from="Health" to="." method="_on_health_full_healed"]
+[connection signal="healed" from="Health" to="." method="_on_health_healed"]
