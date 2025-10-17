@@ -1,15 +1,4 @@
-class_name BiomeMap extends Resource
-
-@export var temperature : FastNoiseLite
-@export var humidity : FastNoiseLite
-@export var continentalness : FastNoiseLite
-
-@export var biomes : Array[Biome]
-
-var map
-
-func generate(biomeSeed : int):
-	map = biomeSeed
+class_name BiomeMap extends Object
 
 func sample(x : float, z : float) -> float:
 	return x + z

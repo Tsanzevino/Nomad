@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2j6w7vke5vls"]
+
+[ext_resource type="Script" uid="uid://d4ilbps3diibd" path="res://Utility/biometest.gd" id="1_fh5er"]
+[ext_resource type="Resource" uid="uid://dbu1ug0owffxe" path="res://Data/World/Generation/BiomeMaps/default_biome_map.tres" id="2_kxmwb"]
+
+[node name="Biometest" type="Node3D"]
+script = ExtResource("1_fh5er")
+biomeMapGenerator = ExtResource("2_kxmwb")

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="BiomeMapGenerator" load_steps=7 format=3 uid="uid://dbu1ug0owffxe"]
+
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_gml1e"]
+[ext_resource type="Resource" uid="uid://cwdi75nd64538" path="res://Data/World/Generation/Biomes/forest.tres" id="2_mde8k"]
+[ext_resource type="Script" uid="uid://xhlp2d0cu70p" path="res://World/Generation/Biome/biome_map_generator.gd" id="3_gml1e"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gml1e"]
+noise_type = 3
+frequency = 0.001
+fractal_type = 0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_34b1u"]
+fractal_type = 0
+fractal_octaves = 1
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dgp8w"]
+frequency = 0.001
+
+[resource]
+script = ExtResource("3_gml1e")
+temperature = SubResource("FastNoiseLite_dgp8w")
+humidity = SubResource("FastNoiseLite_34b1u")
+continentalness = SubResource("FastNoiseLite_gml1e")
+biomes = Array[ExtResource("1_gml1e")]([ExtResource("2_mde8k")])
+metadata/_custom_type_script = "uid://xhlp2d0cu70p"
