@@ -13,16 +13,16 @@ signal hyperhydrated
 signal stable
 signal drank(amount : int)
 
+func _ready() -> void:
+	hydration = hyperhydrationThreshold
+
+
 func _process(delta: float) -> void:
 	thirstTick += delta * thirstTickRate
 	if thirstTick < 1.0: return
 	thirstTick = 0.0
 	use(thirstTickUse)
 	evaluate_hydration()
-	
-
-func _ready() -> void:
-	hydration = hyperhydrationThreshold
 
 func drink(amount : int):
 	hydration += amount

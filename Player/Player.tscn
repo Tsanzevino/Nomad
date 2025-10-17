@@ -125,7 +125,7 @@ shape = ExtResource("2_3nb2p")
 
 [node name="Hitbox" type="Area3D" parent="."]
 script = ExtResource("20_evw08")
-damage = 10
+damage = 5
 metadata/_custom_type_script = "uid://qmm4l31d4oqr"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
@@ -141,5 +141,3 @@ metadata/_custom_type_script = "uid://d12r6coe5aufr"
 [connection signal="died" from="Health" to="." method="_on_health_died"]
 [connection signal="full_healed" from="Health" to="." method="_on_health_full_healed"]
 [connection signal="healed" from="Health" to="." method="_on_health_healed"]
-[connection signal="heal" from="Hurtbox" to="Health" method="heal"]
-[connection signal="hurt" from="Hurtbox" to="Health" method="damage"]

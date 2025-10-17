@@ -29,7 +29,7 @@ func _on_health_full_healed() -> void:
 	pass # Replace with function body.
 
 func _on_health_damaged() -> void:
-	pass
+	print(%Health.health)
 
 func _on_health_died() -> void:
 	pass # Replace with function body.

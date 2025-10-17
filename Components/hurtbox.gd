@@ -13,6 +13,8 @@ func _ready() -> void:
 	collision_mask = 4
 	monitorable = false
 	area_entered.connect(_on_area_entered)
+	heal.connect(owner.find_child("Health").heal)
+	hurt.connect(owner.find_child("Health").damage)
 
 ## Hits the Hurtbox for [param damage], healing if [param damage] is negative.
 func hit(damage : int) -> void:
@@ -20,6 +22,6 @@ func hit(damage : int) -> void:
 	else: heal.emit(-damage)
 
 func _on_area_entered(area : Area3D):
-	#if area.owner == owner: return
+	if area.owner == owner: return
 	if area is Hitbox:
 		hit(area.damage)
