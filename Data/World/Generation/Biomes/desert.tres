@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://eruin0spfh2k"]
+
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_roue7"]
+
+[resource]
+script = ExtResource("1_roue7")
+biomeName = "Desert"
+biomeColor = Color(1, 0.9372549, 0.654902, 1)
+metadata/_custom_type_script = "uid://b7g07yakxwmu5"

@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://d3tp8wru6egla"
+
+[deps]
+
+files=["res://Data/World/Generation/BiomeLookupTableFive.0.translation", "res://Data/World/Generation/BiomeLookupTableFive.0.translation", "res://Data/World/Generation/BiomeLookupTableFive.0.translation", "res://Data/World/Generation/BiomeLookupTableFive.0.translation"]
+
+source_file="res://Data/World/Generation/BiomeLookupTableFive.csv"
+dest_files=["res://Data/World/Generation/BiomeLookupTableFive.0.translation", "res://Data/World/Generation/BiomeLookupTableFive.0.translation", "res://Data/World/Generation/BiomeLookupTableFive.0.translation", "res://Data/World/Generation/BiomeLookupTableFive.0.translation"]
+
+[params]
+
+compress=true
+delimiter=0

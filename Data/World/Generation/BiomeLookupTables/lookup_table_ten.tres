@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BiomeLookupTable" load_steps=8 format=3 uid="uid://catwlopeldmo4"]
+
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_t5mjy"]
+[ext_resource type="Script" uid="uid://g1ui1uecrf2f" path="res://World/Generation/Biome/biome_lookup_table.gd" id="2_ldcej"]
+[ext_resource type="Resource" uid="uid://b2xsduysmtnjg" path="res://Data/World/Generation/Biomes/ocean.tres" id="2_mjhhl"]
+[ext_resource type="Resource" uid="uid://cwdi75nd64538" path="res://Data/World/Generation/Biomes/forest.tres" id="3_enp8k"]
+[ext_resource type="Resource" uid="uid://eruin0spfh2k" path="res://Data/World/Generation/Biomes/desert.tres" id="4_hpb1t"]
+[ext_resource type="Resource" uid="uid://puqy8yuyr51t" path="res://Data/World/Generation/Biomes/plains.tres" id="5_mi03f"]
+[ext_resource type="Resource" uid="uid://cw12puemr2nq0" path="res://Data/World/Generation/Biomes/beach.tres" id="6_4hhw8"]
+
+[resource]
+script = ExtResource("2_ldcej")
+resolution = 10
+biomeIndexTable = Array[ExtResource("1_t5mjy")]([ExtResource("2_mjhhl"), ExtResource("3_enp8k"), ExtResource("4_hpb1t"), ExtResource("5_mi03f"), ExtResource("6_4hhw8")])
+CSVPath = "res://Data/World/Generation/BiomeLookupTables/lookup_table_ten.txt"
+metadata/_custom_type_script = "uid://g1ui1uecrf2f"

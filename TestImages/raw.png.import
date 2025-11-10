@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw0emuu5jop27"
-path="res://.godot/imported/height_component_icon.png-6aaecaf245c10234ebf856edd5088774.ctex"
+uid="uid://dsa8d5akaykie"
+path="res://.godot/imported/raw.png-15658f638d47a88a7a9bb3ca927d11a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://World/Generation/Height/Components/height_component_icon.png"
-dest_files=["res://.godot/imported/height_component_icon.png-6aaecaf245c10234ebf856edd5088774.ctex"]
+source_file="res://TestImages/raw.png"
+dest_files=["res://.godot/imported/raw.png-15658f638d47a88a7a9bb3ca927d11a3.ctex"]
 
 [params]
 

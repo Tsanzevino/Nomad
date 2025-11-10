@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="BiomeLookupTable" load_steps=7 format=3 uid="uid://nhjl261wshc8"]
+
+[ext_resource type="Script" uid="uid://g1ui1uecrf2f" path="res://World/Generation/Biome/biome_lookup_table.gd" id="1_t80qa"]
+[ext_resource type="Resource" uid="uid://puqy8yuyr51t" path="res://Data/World/Generation/Biomes/plains.tres" id="1_ysxxt"]
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="2_6uwkn"]
+[ext_resource type="Resource" uid="uid://eruin0spfh2k" path="res://Data/World/Generation/Biomes/desert.tres" id="4_0cw7i"]
+[ext_resource type="Resource" uid="uid://cwdi75nd64538" path="res://Data/World/Generation/Biomes/forest.tres" id="5_bk11o"]
+[ext_resource type="Resource" uid="uid://b2xsduysmtnjg" path="res://Data/World/Generation/Biomes/ocean.tres" id="6_0cw7i"]
+
+[resource]
+script = ExtResource("1_t80qa")
+resolution = 3
+defaultBiome = ExtResource("1_ysxxt")
+table = Dictionary[Vector3i, ExtResource("2_6uwkn")]({
+Vector3i(0, 0, 0): ExtResource("6_0cw7i"),
+Vector3i(0, 1, 0): ExtResource("6_0cw7i"),
+Vector3i(0, 1, 1): ExtResource("5_bk11o"),
+Vector3i(0, 1, 2): ExtResource("5_bk11o"),
+Vector3i(0, 2, 0): ExtResource("6_0cw7i"),
+Vector3i(0, 2, 1): ExtResource("5_bk11o"),
+Vector3i(0, 2, 2): ExtResource("5_bk11o"),
+Vector3i(1, 0, 0): ExtResource("6_0cw7i"),
+Vector3i(1, 0, 1): ExtResource("4_0cw7i"),
+Vector3i(1, 0, 2): ExtResource("4_0cw7i"),
+Vector3i(1, 1, 0): ExtResource("6_0cw7i"),
+Vector3i(1, 2, 0): ExtResource("6_0cw7i"),
+Vector3i(1, 2, 1): ExtResource("5_bk11o"),
+Vector3i(1, 2, 2): ExtResource("5_bk11o"),
+Vector3i(2, 0, 0): ExtResource("6_0cw7i"),
+Vector3i(2, 0, 1): ExtResource("4_0cw7i"),
+Vector3i(2, 0, 2): ExtResource("4_0cw7i"),
+Vector3i(2, 1, 0): ExtResource("6_0cw7i"),
+Vector3i(2, 1, 1): ExtResource("4_0cw7i"),
+Vector3i(2, 1, 2): ExtResource("4_0cw7i"),
+Vector3i(2, 2, 0): ExtResource("6_0cw7i")
+})
+metadata/_custom_type_script = "uid://g1ui1uecrf2f"

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="HeightMap" load_steps=6 format=3 uid="uid://c5r21j0muhcxe"]
 
-[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/Height/Components/height_component.gd" id="1_yvlkw"]
+[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/Height/Components/noise_component.gd" id="1_px7wa"]
 [ext_resource type="Resource" uid="uid://du65liphc327b" path="res://Data/World/Generation/HeightComponents/continentalness.tres" id="2_8pxh3"]
 [ext_resource type="Resource" uid="uid://buwsklyrcsxud" path="res://Data/World/Generation/HeightComponents/erosion.tres" id="3_b6o85"]
 [ext_resource type="Resource" uid="uid://bdam7fg3qlcfk" path="res://Data/World/Generation/HeightComponents/peaks_and_valleys.tres" id="4_vpkeh"]
@@ -8,7 +8,7 @@
 
 [resource]
 script = ExtResource("5_ad06o")
-components = Array[ExtResource("1_yvlkw")]([ExtResource("4_vpkeh"), ExtResource("2_8pxh3"), ExtResource("3_b6o85")])
+components = Array[ExtResource("1_px7wa")]([ExtResource("4_vpkeh"), ExtResource("2_8pxh3"), ExtResource("3_b6o85")])
 maxHeight = 50.0
 minHeight = -50.0
 heightSeed = -5039

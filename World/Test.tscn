@@ -10,7 +10,7 @@
 [ext_resource type="Resource" uid="uid://d4k624ec6ujmj" path="res://Data/Items/Equipment/InventoryUpgrade/Backpack/backpack.tres" id="5_ehbg5"]
 [ext_resource type="Resource" uid="uid://c2kwe4lia1yjf" path="res://Data/Items/Stackables/Hemp/hemp.tres" id="5_v5n54"]
 [ext_resource type="Script" uid="uid://cllbqbi85l5s1" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
-[ext_resource type="Resource" uid="uid://ceb3gkaye6k0c" path="res://Data/World/Generation/HeightMaps/larger_mountains.tres" id="11_ehbg5"]
+[ext_resource type="Resource" uid="uid://c5r21j0muhcxe" path="res://Data/World/Generation/HeightMaps/default_height_map.tres" id="11_ehbg5"]
 [ext_resource type="Material" uid="uid://dmije7001qay7" path="res://Data/Shaders/height_shader.tres" id="12_ehbg5"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0j1j"]
@@ -94,7 +94,8 @@ size = Vector3(3.98047, 1, 1)
 
 [node name="WorldGenerator" type="Node3D" parent="."]
 script = ExtResource("10_v5n54")
-chunkRadius = 2
+chunkRadius = 10
+chunkSize = 16
 heightMap = ExtResource("11_ehbg5")
 material = ExtResource("12_ehbg5")
 metadata/_custom_type_script = "uid://cllbqbi85l5s1"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://puqy8yuyr51t"]
+
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_wdq1e"]
+
+[resource]
+script = ExtResource("1_wdq1e")
+biomeName = "Plains"
+biomeColor = Color(0.5764706, 1, 0.34117648, 1)
+metadata/_custom_type_script = "uid://b7g07yakxwmu5"

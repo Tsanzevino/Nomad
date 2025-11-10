@@ -1,7 +1,7 @@
 @icon("res://World/Generation/Height/height_map_icon.png")
 class_name HeightMap extends Resource
 
-@export var components : Array[HeightComponent]
+@export var components : Array[NoiseComponent]
 
 @export var maxHeight : float = 25
 @export var minHeight : float = 0

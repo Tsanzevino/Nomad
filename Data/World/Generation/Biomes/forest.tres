@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_50add")
 biomeName = "Forest"
+biomeColor = Color(0.019607844, 0.43529412, 0, 1)
 metadata/_custom_type_script = "uid://b7g07yakxwmu5"

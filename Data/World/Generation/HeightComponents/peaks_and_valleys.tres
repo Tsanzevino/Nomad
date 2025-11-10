@@ -1,19 +1,19 @@
-[gd_resource type="Resource" script_class="HeightComponent" load_steps=4 format=3 uid="uid://bdam7fg3qlcfk"]
+[gd_resource type="Resource" script_class="NoiseComponent" load_steps=4 format=3 uid="uid://bdam7fg3qlcfk"]
 
-[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/Height/Components/height_component.gd" id="1_wjy5w"]
-
-[sub_resource type="Curve" id="Curve_erx5b"]
-_limits = [0.0, 1.0, -1.0, 1.0]
-_data = [Vector2(-1, 0), 0.0, 0.0, 0, 0, Vector2(-0.337559, 0.253176), 0.0, 0.0, 0, 0, Vector2(1, 1), -0.0136607, 0.0, 0, 0]
-point_count = 3
+[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/Height/Components/noise_component.gd" id="1_yhypa"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_fi3r6"]
 noise_type = 3
 fractal_octaves = 3
 
+[sub_resource type="Curve" id="Curve_h7wfl"]
+_limits = [0.0, 1.0, -1.0, 1.0]
+_data = [Vector2(-1, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [resource]
-script = ExtResource("1_wjy5w")
-heightSampler = SubResource("Curve_erx5b")
+script = ExtResource("1_yhypa")
+noiseSampler = SubResource("Curve_h7wfl")
 noise = SubResource("FastNoiseLite_fi3r6")
 weight = 2.0
 metadata/_custom_type_script = "uid://xu4q47ndp3fs"
