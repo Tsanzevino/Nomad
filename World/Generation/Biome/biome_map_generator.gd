@@ -5,7 +5,7 @@ class_name BiomeMapGenerator extends Resource
 @export var continentalness : NoiseComponent
 
 @export var lookupTable : BiomeLookupTable
-var imageSize : int = 2080
+var imageSize : int = 8192
 
 func set_seed(biomeSeed : int):
 	temperature.set_seed(biomeSeed)
@@ -26,7 +26,7 @@ func generate(noiseOffset : Vector3) -> Image:
 			var b = continentalness.get_component(x,z)
 			rawImage.set_pixel(x,z, Color(r,b,g))
 			finalImage.set_pixel(x,z, lookupTable.lookup(r,g,b).biomeColor)
-	#finalImage.save_png("res://TestImages/biomes.png")
+	finalImage.save_png("res://TestImages/biomes.png")
 	print("Done!")
 	return finalImage
 
