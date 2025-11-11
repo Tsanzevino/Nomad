@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://dtfqpv5up0xvw"]
+
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_rup7n"]
+
+[resource]
+script = ExtResource("1_rup7n")
+biomeName = "Boreal Forest"
+biomeColor = Color(0.019607844, 0.43529412, 0.3647059, 1)
+metadata/_custom_type_script = "uid://b7g07yakxwmu5"

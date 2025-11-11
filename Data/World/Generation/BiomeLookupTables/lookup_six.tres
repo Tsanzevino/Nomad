@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BiomeLookupTable" load_steps=14 format=3 uid="uid://vaixxakhcd7g"]
+
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_nuynt"]
+[ext_resource type="Script" uid="uid://g1ui1uecrf2f" path="res://World/Generation/Biome/biome_lookup_table.gd" id="2_4i7vm"]
+[ext_resource type="Resource" uid="uid://b2xsduysmtnjg" path="res://Data/World/Generation/Biomes/ocean.tres" id="2_m8ce0"]
+[ext_resource type="Resource" uid="uid://cw12puemr2nq0" path="res://Data/World/Generation/Biomes/beach.tres" id="3_45oic"]
+[ext_resource type="Resource" uid="uid://dtfqpv5up0xvw" path="res://Data/World/Generation/Biomes/boreal_forest.tres" id="3_j1gmw"]
+[ext_resource type="Resource" uid="uid://c4erawqwnbfpt" path="res://Data/World/Generation/Biomes/stony_beach.tres" id="4_y41d2"]
+[ext_resource type="Resource" uid="uid://eruin0spfh2k" path="res://Data/World/Generation/Biomes/desert.tres" id="5_5573a"]
+[ext_resource type="Resource" uid="uid://xn0i0l8t5plr" path="res://Data/World/Generation/Biomes/mountain.tres" id="6_j1gmw"]
+[ext_resource type="Resource" uid="uid://puqy8yuyr51t" path="res://Data/World/Generation/Biomes/plains.tres" id="7_r5w31"]
+[ext_resource type="Resource" uid="uid://b35vr8bcc8v3" path="res://Data/World/Generation/Biomes/frozen_ocean.tres" id="7_s4l5k"]
+[ext_resource type="Resource" uid="uid://cwdi75nd64538" path="res://Data/World/Generation/Biomes/forest.tres" id="8_s4l5k"]
+[ext_resource type="Resource" uid="uid://40ay83iu5b2o" path="res://Data/World/Generation/Biomes/brushland.tres" id="9_45oic"]
+[ext_resource type="Resource" uid="uid://bectw1xxsad7w" path="res://Data/World/Generation/Biomes/warm_ocean.tres" id="12_1ahq6"]
+
+[resource]
+script = ExtResource("2_4i7vm")
+resolution = 6
+biomeIndexTable = Array[ExtResource("1_nuynt")]([ExtResource("2_m8ce0"), ExtResource("12_1ahq6"), ExtResource("7_s4l5k"), ExtResource("3_45oic"), ExtResource("4_y41d2"), ExtResource("7_r5w31"), ExtResource("9_45oic"), ExtResource("5_5573a"), ExtResource("3_j1gmw"), ExtResource("8_s4l5k"), ExtResource("6_j1gmw")])
+CSVPath = "res://Data/World/Generation/BiomeLookupTables/lookup_six.txt"
+metadata/_custom_type_script = "uid://g1ui1uecrf2f"

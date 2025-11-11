@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://40ay83iu5b2o"]
+
+[ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_sejxn"]
+
+[resource]
+script = ExtResource("1_sejxn")
+biomeName = "Brushland"
+biomeColor = Color(0.6666667, 0.7019608, 0.2784314, 1)
+metadata/_custom_type_script = "uid://b7g07yakxwmu5"

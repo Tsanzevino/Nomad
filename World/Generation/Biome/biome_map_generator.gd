@@ -1,35 +1,34 @@
 class_name BiomeMapGenerator extends Resource
 
-@export var temperature : FastNoiseLite
-@export var humidity : FastNoiseLite
-@export var continentalness : FastNoiseLite
+@export var temperature : NoiseComponent
+@export var humidity : NoiseComponent
+@export var continentalness : NoiseComponent
 
 @export var lookupTable : BiomeLookupTable
-var imageSize : int = 1920
+var imageSize : int = 2080
 
 func set_seed(biomeSeed : int):
-	temperature.seed = biomeSeed
-	humidity.seed = biomeSeed
-	continentalness.seed = biomeSeed
+	temperature.set_seed(biomeSeed)
+	humidity.set_seed(biomeSeed)
+	continentalness.set_seed(biomeSeed)
 
-func generate(noiseOffset : Vector3) -> BiomeMap:
+func generate(noiseOffset : Vector3) -> Image:
 	var biomeMap : BiomeMap = BiomeMap.new()
-	temperature.offset = noiseOffset
-	humidity.offset = noiseOffset
-	continentalness.offset = noiseOffset
+	temperature.noise.offset = noiseOffset
+	humidity.noise.offset = noiseOffset
+	continentalness.noise.offset = noiseOffset
 	var finalImage = Image.create_empty(imageSize,imageSize,false,Image.FORMAT_RGB8)
 	var rawImage = Image.create_empty(imageSize,imageSize,false,Image.FORMAT_RGB8)
 	for x in imageSize:
 		for z in imageSize:
-			var r = (temperature.get_noise_2d(x,z) + 1.0) / 2.0
-			var g = (humidity.get_noise_2d(x,z) + 1.0) / 2.0
-			var b = (continentalness.get_noise_2d(x,z) + 1.0) / 2.0
+			var r = temperature.get_component(x,z)
+			var g = humidity.get_component(x,z)
+			var b = continentalness.get_component(x,z)
 			rawImage.set_pixel(x,z, Color(r,b,g))
 			finalImage.set_pixel(x,z, lookupTable.lookup(r,g,b).biomeColor)
-	rawImage.save_png("res://TestImages/raw.png")
-	finalImage.save_png("res://TestImages/biomes.png")
+	#finalImage.save_png("res://TestImages/biomes.png")
 	print("Done!")
-	return biomeMap
+	return finalImage
 
 func blend(image : Image, radius : int = 1)-> Image:
 	var newImage = Image.create_empty(imageSize,imageSize, false, Image.FORMAT_RGB8)

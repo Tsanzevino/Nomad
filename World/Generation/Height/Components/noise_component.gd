@@ -12,5 +12,8 @@ func set_seed(s : int):
 func get_component(x : float, z : float) -> float:
 	return noiseSampler.sample(noise.get_noise_2d(x,z)) * weight
 
+func get_raw_component(x : float, z : float) -> float:
+	return noiseSampler.sample(noise.get_noise_2d(x,z))
+
 func get_weight() -> float:
 	return weight
