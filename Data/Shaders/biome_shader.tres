@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bc0dotg4o0crd"]
+
+[ext_resource type="Shader" uid="uid://c4nct1kb8dx88" path="res://Data/Shaders/biome_shader.gdshader" id="1_5ybhy"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5ybhy")

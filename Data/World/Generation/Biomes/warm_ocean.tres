@@ -1,9 +1,18 @@
-[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://bectw1xxsad7w"]
+[gd_resource type="Resource" script_class="Biome" load_steps=4 format=3 uid="uid://bectw1xxsad7w"]
 
 [ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_ppyvf"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ppyvf"]
+
+[sub_resource type="Curve" id="Curve_dp61v"]
+_limits = [0.0, 1.0, -1.0, 1.0]
+_data = [Vector2(-1, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [resource]
 script = ExtResource("1_ppyvf")
 biomeName = "Warm Ocean"
 biomeColor = Color(0, 0.65882355, 0.79607844, 1)
+noiseSampler = SubResource("Curve_dp61v")
+noise = SubResource("FastNoiseLite_ppyvf")
 metadata/_custom_type_script = "uid://b7g07yakxwmu5"

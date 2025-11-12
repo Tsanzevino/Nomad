@@ -1,15 +1,15 @@
-[gd_resource type="Resource" script_class="BiomeMapGenerator" load_steps=6 format=3 uid="uid://vil6lrn6awsr"]
+[gd_resource type="Resource" script_class="BiomeMap" load_steps=6 format=3 uid="uid://vil6lrn6awsr"]
 
 [ext_resource type="Resource" uid="uid://du65liphc327b" path="res://Data/World/Generation/HeightComponents/continentalness.tres" id="1_34b1u"]
 [ext_resource type="Resource" uid="uid://fb1pwq6c6vqa" path="res://Data/World/Generation/HeightComponents/humidity.tres" id="2_dgp8w"]
 [ext_resource type="Resource" uid="uid://vaixxakhcd7g" path="res://Data/World/Generation/BiomeLookupTables/lookup_six.tres" id="3_34b1u"]
-[ext_resource type="Script" uid="uid://xhlp2d0cu70p" path="res://World/Generation/Biome/biome_map_generator.gd" id="3_gml1e"]
+[ext_resource type="Script" uid="uid://xhlp2d0cu70p" path="res://World/Generation/Biome/biome_map.gd" id="4_34b1u"]
 [ext_resource type="Resource" uid="uid://0mcdcqm2l6mg" path="res://Data/World/Generation/HeightComponents/temperature.tres" id="5_a787y"]
 
 [resource]
-script = ExtResource("3_gml1e")
+script = ExtResource("4_34b1u")
 temperature = ExtResource("5_a787y")
 humidity = ExtResource("2_dgp8w")
 continentalness = ExtResource("1_34b1u")
-lookupTable = ExtResource("3_34b1u")
+blt = ExtResource("3_34b1u")
 metadata/_custom_type_script = "uid://xhlp2d0cu70p"

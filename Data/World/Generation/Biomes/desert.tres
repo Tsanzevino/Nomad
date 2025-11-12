@@ -1,9 +1,19 @@
-[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://eruin0spfh2k"]
+[gd_resource type="Resource" script_class="Biome" load_steps=4 format=3 uid="uid://eruin0spfh2k"]
 
 [ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_roue7"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_roue7"]
+
+[sub_resource type="Curve" id="Curve_vfec0"]
+_limits = [0.0, 1.0, -1.0, 1.0]
+_data = [Vector2(-1, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [resource]
 script = ExtResource("1_roue7")
 biomeName = "Desert"
 biomeColor = Color(1, 0.9372549, 0.654902, 1)
+noiseSampler = SubResource("Curve_vfec0")
+noise = SubResource("FastNoiseLite_roue7")
+weight = 1.0
 metadata/_custom_type_script = "uid://b7g07yakxwmu5"

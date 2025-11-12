@@ -5,10 +5,9 @@ class_name HeightMap extends Resource
 
 @export var maxHeight : float = 25
 @export var minHeight : float = 0
-@export var heightSeed : int = 1
 var heightScalar : float = 0.0
 
-func setup():
+func setup(heightSeed : int):
 	var totalWeight : float = 0.0
 	for component in components:
 		component.set_seed(heightSeed)

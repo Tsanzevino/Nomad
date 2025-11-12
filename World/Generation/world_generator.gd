@@ -2,7 +2,9 @@ class_name WorldGenerator extends Node3D
 
 @export var chunkRadius : int = 4
 @export var chunkSize : int = 64
+@export var generationSeed : int = 1
 @export var heightMap : HeightMap
+@export var biomeMap : BiomeMap
 
 @export var amplitude : float = 1
 @export var resolution : int = 3
@@ -15,8 +17,10 @@ var currentChunkCoords : Vector2i
 var chunkLoadingQueue : ChunkLoadingQueue
 
 func _ready():
+	PlayerStats.biomeMap = biomeMap
 	chunkLoadingQueue = ChunkLoadingQueue.new()
-	heightMap.setup()
+	heightMap.setup(generationSeed)
+	biomeMap.setup(generationSeed)
 	ChunkCache.chunkSize = chunkSize
 	prepare_terrain_generator()
 	generate_world()
@@ -83,7 +87,8 @@ func create_new_chunk(coords : Vector2i) -> Chunk:
 	chunk.position = Vector3(coords.x * chunkSize, 0, coords.y * chunkSize)
 	chunk.material_override = material
 	chunk.mesh = TerrainGenerator.generate_terrain(chunk.global_position)
-	#chunk.create_trimesh_collision()
+	chunk.biomeMapChunk = biomeMap.generate_map(chunk.global_position,chunkSize)
+	chunk.create_trimesh_collision()
 	ChunkCache.set_chunk(coords,chunk)
 	return chunk
 

@@ -17,6 +17,6 @@ point_count = 2
 script = ExtResource("1_4xwog")
 noiseSampler = SubResource("Curve_3hl5a")
 noise = SubResource("FastNoiseLite_4a5xf")
-weight = 2.0
+weight = 0.4
 seed_offset = 123
 metadata/_custom_type_script = "uid://xu4q47ndp3fs"

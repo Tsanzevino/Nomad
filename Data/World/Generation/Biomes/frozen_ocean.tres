@@ -1,9 +1,15 @@
-[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://b35vr8bcc8v3"]
+[gd_resource type="Resource" script_class="Biome" load_steps=4 format=3 uid="uid://b35vr8bcc8v3"]
 
 [ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_duhwp"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_duhwp"]
+
+[sub_resource type="Curve" id="Curve_cp8ym"]
 
 [resource]
 script = ExtResource("1_duhwp")
 biomeName = "Frozen Ocean"
 biomeColor = Color(0.627451, 1, 1, 1)
+noiseSampler = SubResource("Curve_cp8ym")
+noise = SubResource("FastNoiseLite_duhwp")
 metadata/_custom_type_script = "uid://b7g07yakxwmu5"

@@ -1,9 +1,20 @@
-[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://xn0i0l8t5plr"]
+[gd_resource type="Resource" script_class="Biome" load_steps=4 format=3 uid="uid://xn0i0l8t5plr"]
 
 [ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_o2x6y"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_o2x6y"]
+noise_type = 3
+
+[sub_resource type="Curve" id="Curve_cbt8m"]
+_limits = [0.0, 1.0, -1.0, 1.0]
+_data = [Vector2(-1, 0), 0.0, 0.0, 0, 0, Vector2(-0.49999994, 0.2600701), 0.0, 0.0, 0, 0, Vector2(0.002314806, 0.1297918), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [resource]
 script = ExtResource("1_o2x6y")
 biomeName = "Mountain"
 biomeColor = Color(0.32941177, 0.45490196, 0.45490196, 1)
+noiseSampler = SubResource("Curve_cbt8m")
+noise = SubResource("FastNoiseLite_o2x6y")
+weight = 100.0
 metadata/_custom_type_script = "uid://b7g07yakxwmu5"

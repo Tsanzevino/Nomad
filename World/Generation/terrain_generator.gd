@@ -10,6 +10,7 @@ static var totalNoiseTime : int = 0
 static var totalNormalTime : int = 0
 
 static var heightMap : HeightMap = preload("res://Data/World/Generation/HeightMaps/default_height_map.tres")
+static var biomeMap : BiomeMap = preload("res://Data/World/Generation/BiomeMaps/default_biome_map.tres")
 
 static func generate_terrain(pos : Vector3) -> Mesh:
 	var start = Time.get_ticks_msec()
@@ -25,6 +26,9 @@ static func generate_terrain(pos : Vector3) -> Mesh:
 			var resZ : float = resolutionFactor * z
 			start = Time.get_ticks_msec()
 			var height = heightMap.get_height(resX + offset.x + pos.x,resZ + offset.z + pos.z)
+			var b = biomeMap.get_biome(Vector3(resX + offset.x + pos.x,0.0,resZ + offset.z + pos.z))
+			height += b.get_component(resX + offset.x + pos.x,resZ + offset.z + pos.z)
+			surface_tool.set_color(b.biomeColor)
 			totalNoiseTime += Time.get_ticks_msec() - start
 			start = Time.get_ticks_msec()
 			var vertexPosition = Vector3(resX, height * amplitude, resZ) + offset

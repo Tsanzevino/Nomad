@@ -1,9 +1,19 @@
-[gd_resource type="Resource" script_class="Biome" load_steps=2 format=3 uid="uid://c4erawqwnbfpt"]
+[gd_resource type="Resource" script_class="Biome" load_steps=4 format=3 uid="uid://c4erawqwnbfpt"]
 
 [ext_resource type="Script" uid="uid://b7g07yakxwmu5" path="res://World/Generation/Biome/biome.gd" id="1_r2qcg"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r2qcg"]
+frequency = 0.1
+
+[sub_resource type="Curve" id="Curve_dwm4e"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [resource]
 script = ExtResource("1_r2qcg")
 biomeName = "Stony Beach"
 biomeColor = Color(0.80219805, 0.80256826, 0.7322459, 1)
+noiseSampler = SubResource("Curve_dwm4e")
+noise = SubResource("FastNoiseLite_r2qcg")
+weight = 1.0
 metadata/_custom_type_script = "uid://b7g07yakxwmu5"
