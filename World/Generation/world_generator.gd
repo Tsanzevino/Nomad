@@ -3,12 +3,10 @@ class_name WorldGenerator extends Node3D
 @export var chunkRadius : int = 4
 @export var chunkSize : int = 64
 @export var generationSeed : int = 1
-@export var heightMap : HeightMap
-@export var biomeMap : BiomeMap
+
 
 @export var amplitude : float = 1
-@export var resolution : int = 3
-@export var yOffset : float = 0.0
+var resolution : int = 1
 
 @export var material : Material
 
@@ -16,7 +14,16 @@ var player : Node3D
 var currentChunkCoords : Vector2i
 var chunkLoadingQueue : ChunkLoadingQueue
 
+@export var heightMap : HeightMap
+@export var biomeMap : BiomeMap
+
+@export var threadCount : int = 3
+var threads : Array[Thread]
+
 func _ready():
+	threads.resize(threadCount)
+	for i in threadCount:
+		threads[i] = Thread.new()
 	PlayerStats.biomeMap = biomeMap
 	chunkLoadingQueue = ChunkLoadingQueue.new()
 	heightMap.setup(generationSeed)
@@ -36,12 +43,11 @@ func generate_world():
 			chunksGenerated += 1
 			print("progress : ", chunksGenerated, " / ", chunksToGenerate)
 	print("Took ", (Time.get_ticks_msec() - timeStart) / 1000.0, " seconds")
-	print("Normal Generation Time: %d\nVertex Generation Time: %d\nNoise Generation Time: %d\n" % [TerrainGenerator.totalNormalTime, TerrainGenerator.totalVertexTime, TerrainGenerator.totalNoiseTime])
 
 func _physics_process(_delta):
 	var coords = Vector2(player.global_position.x,player.global_position.z)
 	var newCoords : Vector2i = ChunkCache.get_chunk_coordinates(coords)
-	load_chunks(newCoords, 1)
+	load_chunks(newCoords)
 	if newCoords == currentChunkCoords:
 		return
 	print(newCoords)
@@ -81,30 +87,85 @@ func update_loaded_chunks(moveDirection : Vector2i, coords : Vector2i):
 			else:
 				remove_child(ChunkCache.get_chunk(remove))
 
-func create_new_chunk(coords : Vector2i) -> Chunk:
+func create_new_chunk(coords : Vector2i) -> void:
 	var chunk := Chunk.new()
 	add_child(chunk)
 	chunk.position = Vector3(coords.x * chunkSize, 0, coords.y * chunkSize)
 	chunk.material_override = material
-	chunk.mesh = TerrainGenerator.generate_terrain(chunk.global_position)
-	chunk.biomeMapChunk = biomeMap.generate_map(chunk.global_position,chunkSize)
-	chunk.create_trimesh_collision()
+	# SOURCE OF LAG: CAN BE PERFORMED ON THREAD
+	#chunk.biomeMapChunk = biomeMap.generate_map(chunk.global_position - Vector3((chunkSize + 4)/2.0,0,(chunkSize + 4)/2.0),chunkSize + 4)
 	ChunkCache.set_chunk(coords,chunk)
-	return chunk
+	# Offload to thread if possible
+	if not thread_is_available():
+		generate_terrain(chunk.global_position, chunk)
+	else:
+		get_free_thread().start(generate_terrain.bind(chunk.global_position, chunk))
 
-func load_chunks(coords : Vector2i, limit : int):
-	var amount = min(limit,chunkLoadingQueue.size())
+func thread_is_available() -> bool:
+	for t in threads:
+		if not t.is_alive():
+			return true
+	return false
+
+func threads_available() -> int:
+	var count : int = 0
+	for t in threads:
+		if not t.is_alive():
+			count += 1
+	return count
+
+func get_free_thread() -> Thread:
+	for t in threads:
+		if not t.is_alive():
+			if t.is_started(): t.wait_to_finish()
+			return t
+	return null
+
+func load_chunks(coords : Vector2i):
+	var amount = min(threads_available(),chunkLoadingQueue.size())
 	if amount == 0:
 		return
 	for n in amount:
 		create_new_chunk(chunkLoadingQueue.pop(coords))
 
 func prepare_terrain_generator():
-	TerrainGenerator.terrainSize = chunkSize
-	TerrainGenerator.amplitude = amplitude
-	TerrainGenerator.resolution = resolution
-	TerrainGenerator.yOffset = yOffset
-	TerrainGenerator.heightMap = heightMap
 	if material is ShaderMaterial:
 		material.set_shader_parameter("min_height", heightMap.minHeight * amplitude)
 		material.set_shader_parameter("max_height", heightMap.maxHeight * amplitude)
+
+func generate_terrain(pos : Vector3, chunk : Chunk) -> void:
+	var surface_tool = SurfaceTool.new()
+	var index : int = 0
+	var txr = chunkSize * resolution + 1
+	var resolutionFactor : float = 1.0 / resolution
+	var offset : Vector3 = Vector3(float(chunkSize) / -2.0,0.0,float(chunkSize) / -2.0)
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for z in txr:
+		for x in txr:
+			var resX : float = resolutionFactor * x
+			var resZ : float = resolutionFactor * z
+			var height = heightMap.get_height(resX + offset.x + pos.x,resZ + offset.z + pos.z)
+			var b = biomeMap.get_biome(Vector3(resX + offset.x + pos.x,0.0,resZ + offset.z + pos.z))
+			height += b.get_component(resX + offset.x + pos.x,resZ + offset.z + pos.z)
+			surface_tool.set_color(b.biomeColor)
+			var vertexPosition = Vector3(resX, height * amplitude, resZ) + offset
+			#surface_tool.set_color(Color(0,height,0))
+			surface_tool.set_uv(Vector2(float(x)/txr,float(z)/txr))
+			surface_tool.add_vertex(vertexPosition)
+			if z < txr - 1 and x < txr - 1:
+				# First triangle of mesh square
+				surface_tool.add_index(index)
+				surface_tool.add_index(index + 1)
+				surface_tool.add_index(index + txr + 1)
+				# Second triangle of mesh square
+				surface_tool.add_index(index)
+				surface_tool.add_index(index + txr + 1)
+				surface_tool.add_index(index + txr)
+			index += 1
+	surface_tool.generate_normals()
+	call_deferred("assign_mesh", surface_tool.commit(), chunk)
+
+func assign_mesh(mesh : Mesh, chunk : Chunk):
+	chunk.mesh = mesh
+	# SOURCE OF LAG: SHOULD DO ON THREAD
+	chunk.create_trimesh_collision()

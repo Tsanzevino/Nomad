@@ -1,28 +1,31 @@
 class_name BiomeMapChunk extends Object
 
 var map : Array[PackedByteArray]
-var offset : Vector3
-var size : int
 var table : Array[Biome]
+
+var offset : Vector2
+var bounds : Rect2
 
 func _init(m : Array[PackedByteArray], o : Vector3, s : int, t : Array[Biome]):
 	if t.size() > 1: map = m
-	else: map = []
-	offset = o
-	size = s
+	offset = Vector2(o.x,o.z)
 	table = t
+	bounds = Rect2(offset,Vector2(s,s))
 
-func sample(x : float, z : float) -> Biome:
-	if out_of_bounds(x,z): return null
-	if map == []: return table[0]
-	return table[map[floor(x - offset.x)][floor(z - offset.z)]]
+func get_biome(pos : Vector3) -> Biome:
+	if out_of_bounds(pos): return null
+	if map_is_simple(): return table[0]
+	return table[map[floor(pos.x - offset.x)][floor(pos.z - offset.y)]]
 
-func sample_height(x : float, z : float) -> float:
-	if out_of_bounds(x,z): return 0.0
-	if map == []: return table[0].get_component(x,z)
-	return table[map[floor(x - offset.x)][floor(z - offset.z)]].get_component(x,z)
+func get_biome_height(pos : Vector3) -> float:
+	if out_of_bounds(pos): return 0.0
+	if map_is_simple(): return table[0].get_component(pos.x,pos.z)
+	return table[map[floor(pos.x - offset.x)][floor(pos.z - offset.y)]].get_component(pos.x,pos.z)
 
-func out_of_bounds(x : float, z : float) -> bool:
-	var offsettedX = x - offset.x
-	var offsettedZ = z - offset.z
-	return offsettedX < 0 or size <= offsettedX or offsettedZ < 0 or size <= offsettedZ
+## Checks if the map consists of a single biome, meaning it is simple.
+## This is meant to save space when producing many maps
+func map_is_simple() -> bool:
+	return table.size() <= 1
+
+func out_of_bounds(pos : Vector3) -> bool:
+	return not bounds.has_point(Vector2(pos.x,pos.z))

@@ -97,10 +97,9 @@ size = Vector3(3.98047, 1, 1)
 script = ExtResource("10_v5n54")
 chunkRadius = 20
 chunkSize = 16
+material = ExtResource("13_v01c2")
 heightMap = ExtResource("11_ehbg5")
 biomeMap = ExtResource("12_v01c2")
-resolution = 1
-material = ExtResource("13_v01c2")
 metadata/_custom_type_script = "uid://cllbqbi85l5s1"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

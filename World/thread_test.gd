@@ -1,24 +1,41 @@
-class_name TerrainGenerator extends Object
+extends Node3D
 
-static var terrainSize : int = 64
-static var amplitude : float = 1
-static var resolution : int = 3
-static var yOffset : float = 0.0
+@export var chunkRadius : int = 4
+@export var chunkSize : int = 64
+@export var generationSeed : int = 1
+@export var heightMap : HeightMap = preload("res://Data/World/Generation/HeightMaps/default_height_map.tres")
+@export var biomeMap : BiomeMap = preload("res://Data/World/Generation/BiomeMaps/default_biome_map.tres")
 
-static var totalVertexTime : int = 0
-static var totalNoiseTime : int = 0
-static var totalNormalTime : int = 0
+@export var amplitude : float = 1
+@export var resolution : int = 3
+@export var yOffset : float = 0.0
 
-static var heightMap : HeightMap = preload("res://Data/World/Generation/HeightMaps/default_height_map.tres")
-static var biomeMap : BiomeMap = preload("res://Data/World/Generation/BiomeMaps/default_biome_map.tres")
+@export var material : Material
 
-static func generate_terrain(pos : Vector3) -> Mesh:
+var player : Node3D
+var currentChunkCoords : Vector2i
+var chunkLoadingQueue : ChunkLoadingQueue
+
+var totalVertexTime : int = 0
+var totalNoiseTime : int = 0
+var totalNormalTime : int = 0
+
+var thread : Thread
+
+func _ready():
+	thread = Thread.new()
+	thread.start(generate_terrain.bind(Vector3.ZERO, $MeshInstance3D2))
+
+func attach_mesh(mesh : Mesh, instance : MeshInstance3D):
+	instance.mesh = mesh
+
+func generate_terrain(pos : Vector3, instance : MeshInstance3D):
 	var start = Time.get_ticks_msec()
 	var surface_tool = SurfaceTool.new()
 	var index : int = 0
-	var txr = terrainSize * resolution + 1
+	var txr = chunkSize * resolution + 1
 	var resolutionFactor : float = 1.0 / resolution
-	var offset : Vector3 = Vector3(float(terrainSize) / -2.0,yOffset,float(terrainSize) / -2.0)
+	var offset : Vector3 = Vector3(float(chunkSize) / -2.0,yOffset,float(chunkSize) / -2.0)
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for z in txr:
 		for x in txr:
@@ -49,4 +66,5 @@ static func generate_terrain(pos : Vector3) -> Mesh:
 	start = Time.get_ticks_msec()
 	surface_tool.generate_normals()
 	totalNormalTime += Time.get_ticks_msec() - start
-	return surface_tool.commit()
+	call_deferred("attach_mesh", surface_tool.commit(), instance)
+	print("Test Success!")
