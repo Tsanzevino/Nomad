@@ -1,12 +1,11 @@
 class_name WorldGenerator extends Node3D
 
 @export var chunkRadius : int = 4
-@export var chunkSize : int = 64
+@export var chunkSize : int = 16
 @export var generationSeed : int = 1
 
 
 @export var amplitude : float = 1
-var resolution : int = 1
 
 @export var material : Material
 
@@ -136,31 +135,26 @@ func prepare_terrain_generator():
 func generate_terrain(pos : Vector3, chunk : Chunk) -> void:
 	var surface_tool = SurfaceTool.new()
 	var index : int = 0
-	var txr = chunkSize * resolution + 1
-	var resolutionFactor : float = 1.0 / resolution
 	var offset : Vector3 = Vector3(float(chunkSize) / -2.0,0.0,float(chunkSize) / -2.0)
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for z in txr:
-		for x in txr:
-			var resX : float = resolutionFactor * x
-			var resZ : float = resolutionFactor * z
-			var height = heightMap.get_height(resX + offset.x + pos.x,resZ + offset.z + pos.z)
-			var b = biomeMap.get_biome(Vector3(resX + offset.x + pos.x,0.0,resZ + offset.z + pos.z))
-			height += b.get_component(resX + offset.x + pos.x,resZ + offset.z + pos.z)
+	for z in (chunkSize + 1):
+		for x in (chunkSize + 1):
+			var height = heightMap.get_height(x + offset.x + pos.x,z + offset.z + pos.z)
+			var b = biomeMap.get_biome(x + offset.x + pos.x,z + offset.z + pos.z)
+			height += b.get_component(x + offset.x + pos.x,z + offset.z + pos.z)
 			surface_tool.set_color(b.biomeColor)
-			var vertexPosition = Vector3(resX, height * amplitude, resZ) + offset
-			#surface_tool.set_color(Color(0,height,0))
-			surface_tool.set_uv(Vector2(float(x)/txr,float(z)/txr))
+			var vertexPosition = Vector3(x, height * amplitude, z) + offset
+			surface_tool.set_uv(Vector2(float(x)/chunkSize,float(z)/chunkSize))
 			surface_tool.add_vertex(vertexPosition)
-			if z < txr - 1 and x < txr - 1:
+			if z < chunkSize and x < chunkSize:
 				# First triangle of mesh square
 				surface_tool.add_index(index)
 				surface_tool.add_index(index + 1)
-				surface_tool.add_index(index + txr + 1)
+				surface_tool.add_index(index + chunkSize + 2)
 				# Second triangle of mesh square
 				surface_tool.add_index(index)
-				surface_tool.add_index(index + txr + 1)
-				surface_tool.add_index(index + txr)
+				surface_tool.add_index(index + chunkSize + 2)
+				surface_tool.add_index(index + chunkSize + 1)
 			index += 1
 	surface_tool.generate_normals()
 	call_deferred("assign_mesh", surface_tool.commit(), chunk)

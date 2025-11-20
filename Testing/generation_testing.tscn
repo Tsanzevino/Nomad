@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cujaitnrj3v5n"]
+
+[ext_resource type="Script" uid="uid://jyoyuidrjxi4" path="res://Testing/generation_testing.gd" id="1_mqmyc"]
+[ext_resource type="Resource" uid="uid://dbu1ug0owffxe" path="res://Data/World/Generation/BiomeMaps/default_biome_map.tres" id="2_872a7"]
+
+[node name="GenerationTesting" type="Node"]
+script = ExtResource("1_mqmyc")
+biomeMap = ExtResource("2_872a7")
+minSize = 2500
+maxSize = 5001
+step = 500

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dr2ppu22dhx57"]
+
+[ext_resource type="Script" uid="uid://bmtwq6od5r2o3" path="res://Testing/biome_test.gd" id="1_d6jiq"]
+[ext_resource type="Resource" uid="uid://dbu1ug0owffxe" path="res://Data/World/Generation/BiomeMaps/default_biome_map.tres" id="2_d0xrs"]
+
+[node name="BiomeTest" type="Node2D"]
+script = ExtResource("1_d6jiq")
+biomeMap = ExtResource("2_d0xrs")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true

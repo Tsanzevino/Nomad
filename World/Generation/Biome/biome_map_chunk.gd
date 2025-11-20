@@ -11,8 +11,8 @@ func _init(m : Array[PackedByteArray], o : Vector3, s : int, t : Array[Biome]):
 	offset = Vector2(o.x,o.z)
 	table = t
 	bounds = Rect2(offset,Vector2(s,s))
-
-func get_biome(pos : Vector3) -> Biome:
+	
+func get_biome(pos : Vector3) -> Biome: 
 	if out_of_bounds(pos): return null
 	if map_is_simple(): return table[0]
 	return table[map[floor(pos.x - offset.x)][floor(pos.z - offset.y)]]
