@@ -1,20 +1,17 @@
 class_name WorldGenerator extends Node3D
 
 @export var chunkRadius : int = 4
-@export var chunkSize : int = 16
 @export var generationSeed : int = 1
 
-
 @export var amplitude : float = 1
-
 @export var material : Material
 
 var player : Node3D
 var currentChunkCoords : Vector2i
 var chunkLoadingQueue : ChunkLoadingQueue
 
-@export var heightMap : HeightMap
-@export var biomeMap : BiomeMap
+static var heightMap : HeightMap = preload("res://Data/World/Generation/HeightMaps/default_height_map.tres")
+static var biomeMap : BiomeMap = preload("res://Data/World/Generation/BiomeMaps/default_biome_map.tres")
 
 @export var threadCount : int = 3
 var threads : Array[Thread]
@@ -27,7 +24,6 @@ func _ready():
 	chunkLoadingQueue = ChunkLoadingQueue.new()
 	heightMap.setup(generationSeed)
 	biomeMap.setup(generationSeed)
-	ChunkCache.chunkSize = chunkSize
 	prepare_terrain_generator()
 	generate_world()
 	player = get_tree().get_first_node_in_group("Player")
@@ -89,10 +85,8 @@ func update_loaded_chunks(moveDirection : Vector2i, coords : Vector2i):
 func create_new_chunk(coords : Vector2i) -> void:
 	var chunk := Chunk.new()
 	add_child(chunk)
-	chunk.position = Vector3(coords.x * chunkSize, 0, coords.y * chunkSize)
+	chunk.position = Vector3(coords.x * Chunk.size, 0, coords.y * Chunk.size)
 	chunk.material_override = material
-	# SOURCE OF LAG: CAN BE PERFORMED ON THREAD
-	#chunk.biomeMapChunk = biomeMap.generate_map(chunk.global_position - Vector3((chunkSize + 4)/2.0,0,(chunkSize + 4)/2.0),chunkSize + 4)
 	ChunkCache.set_chunk(coords,chunk)
 	# Offload to thread if possible
 	if not thread_is_available():
@@ -135,31 +129,57 @@ func prepare_terrain_generator():
 func generate_terrain(pos : Vector3, chunk : Chunk) -> void:
 	var surface_tool = SurfaceTool.new()
 	var index : int = 0
-	var offset : Vector3 = Vector3(float(chunkSize) / -2.0,0.0,float(chunkSize) / -2.0)
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for z in (chunkSize + 1):
-		for x in (chunkSize + 1):
-			var height = heightMap.get_height(x + offset.x + pos.x,z + offset.z + pos.z)
-			var b = biomeMap.get_biome(x + offset.x + pos.x,z + offset.z + pos.z)
-			height += b.get_component(x + offset.x + pos.x,z + offset.z + pos.z)
+	var offset : Vector3 = Vector3(float(Chunk.size) / -2.0,0.0,float(Chunk.size) / -2.0)
+	var biomeMapChunk = biomeMap.generate_map_chunk(pos.x, pos.z,Chunk.size * 2)
+	var heights = generate_chunk_heights(pos,biomeMapChunk)
+	heights = smooth_heights(heights)
+	for z in (Chunk.size + 1):
+		for x in (Chunk.size + 1):
+			var b = biomeMapChunk.get_biome(x + offset.x + pos.x, z + offset.z + pos.z)
 			surface_tool.set_color(b.biomeColor)
-			var vertexPosition = Vector3(x, height * amplitude, z) + offset
-			surface_tool.set_uv(Vector2(float(x)/chunkSize,float(z)/chunkSize))
+			var vertexPosition = Vector3(x, heights[z][x] * amplitude, z) + offset
+			surface_tool.set_uv(Vector2(float(x)/Chunk.size,float(z)/Chunk.size))
 			surface_tool.add_vertex(vertexPosition)
-			if z < chunkSize and x < chunkSize:
+			if z < Chunk.size and x < Chunk.size:
 				# First triangle of mesh square
 				surface_tool.add_index(index)
 				surface_tool.add_index(index + 1)
-				surface_tool.add_index(index + chunkSize + 2)
+				surface_tool.add_index(index + Chunk.size + 2)
 				# Second triangle of mesh square
 				surface_tool.add_index(index)
-				surface_tool.add_index(index + chunkSize + 2)
-				surface_tool.add_index(index + chunkSize + 1)
+				surface_tool.add_index(index + Chunk.size + 2)
+				surface_tool.add_index(index + Chunk.size + 1)
 			index += 1
 	surface_tool.generate_normals()
 	call_deferred("assign_mesh", surface_tool.commit(), chunk)
+	call_deferred("assign_biome_chunk", biomeMapChunk, chunk)
+
+func generate_chunk_heights(pos : Vector3, biomeMapChunk : BiomeMapChunk) -> Array[Array]:
+	var heights : Array[Array] = []
+	heights.resize(Chunk.size + 3)
+	var offset : Vector3 = Vector3(float(Chunk.size) / -2.0,0.0,float(Chunk.size) / -2.0)
+	for z in range(-1, (Chunk.size + 2)):
+		heights[z].resize(Chunk.size + 3)
+		for x in range(-1, (Chunk.size + 2)):
+			var height = heightMap.get_height(x + offset.x + pos.x,z + offset.z + pos.z)
+			var biomeHeight = biomeMapChunk.get_biome_height(x + offset.x + pos.x, z + offset.z + pos.z)
+			heights[z][x] = height + biomeHeight
+	return heights
+
+func smooth_heights(heights : Array[Array]) -> Array[Array]:
+	var newHeights : Array[Array] = []
+	newHeights.resize(Chunk.size + 1)
+	for z in (Chunk.size + 1):
+		newHeights[z].resize(Chunk.size + 1)
+		for x in (Chunk.size + 1):
+			newHeights[z][x] = (heights[z][x] + heights[z-1][x] + heights[z+1][x] + heights[z][x-1] + heights[z][x+1]) / 5
+	return newHeights
 
 func assign_mesh(mesh : Mesh, chunk : Chunk):
 	chunk.mesh = mesh
 	# SOURCE OF LAG: SHOULD DO ON THREAD
 	chunk.create_trimesh_collision()
+
+func assign_biome_chunk(mapChunk : BiomeMapChunk, chunk : Chunk):
+	chunk.biomeMapChunk = mapChunk

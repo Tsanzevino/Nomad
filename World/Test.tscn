@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c1xgfmun1gkuv"]
+[gd_scene load_steps=17 format=3 uid="uid://c1xgfmun1gkuv"]
 
 [ext_resource type="Environment" uid="uid://ba2w1hx6ty0ah" path="res://Data/World/world_environment.tres" id="1_maf25"]
 [ext_resource type="PackedScene" uid="uid://dftm3sdr4grbd" path="res://Player/Player.tscn" id="2_1pd7n"]
@@ -10,8 +10,6 @@
 [ext_resource type="Resource" uid="uid://d4k624ec6ujmj" path="res://Data/Items/Equipment/InventoryUpgrade/Backpack/backpack.tres" id="5_ehbg5"]
 [ext_resource type="Resource" uid="uid://c2kwe4lia1yjf" path="res://Data/Items/Stackables/Hemp/hemp.tres" id="5_v5n54"]
 [ext_resource type="Script" uid="uid://cllbqbi85l5s1" path="res://World/Generation/world_generator.gd" id="10_v5n54"]
-[ext_resource type="Resource" uid="uid://c5r21j0muhcxe" path="res://Data/World/Generation/HeightMaps/default_height_map.tres" id="11_ehbg5"]
-[ext_resource type="Resource" uid="uid://dbu1ug0owffxe" path="res://Data/World/Generation/BiomeMaps/default_biome_map.tres" id="12_v01c2"]
 [ext_resource type="Material" uid="uid://bc0dotg4o0crd" path="res://Data/Shaders/biome_shader.tres" id="13_v01c2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0j1j"]
@@ -88,17 +86,15 @@ mesh = SubResource("SphereMesh_ramaq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.49, -20, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
 material_override = SubResource("StandardMaterial3D_4mnke")
 use_collision = true
-size = Vector3(3.98047, 1, 1)
+size = Vector3(16, 1, 1)
 
 [node name="WorldGenerator" type="Node3D" parent="."]
 script = ExtResource("10_v5n54")
-chunkRadius = 16
+chunkRadius = 0
 material = ExtResource("13_v01c2")
-heightMap = ExtResource("11_ehbg5")
-biomeMap = ExtResource("12_v01c2")
 metadata/_custom_type_script = "uid://cllbqbi85l5s1"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
