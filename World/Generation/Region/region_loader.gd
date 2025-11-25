@@ -1,4 +1,4 @@
-class_name ChunkLoader extends Node
+class_name RegionLoader extends Node
 
 
 # Called when the node enters the scene tree for the first time.

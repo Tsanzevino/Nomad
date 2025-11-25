@@ -1,11 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://dr2ppu22dhx57"]
+[gd_scene load_steps=4 format=3 uid="uid://dr2ppu22dhx57"]
 
 [ext_resource type="Script" uid="uid://bmtwq6od5r2o3" path="res://Testing/biome_test.gd" id="1_d6jiq"]
-[ext_resource type="Resource" uid="uid://dbu1ug0owffxe" path="res://Data/World/Generation/BiomeMaps/default_biome_map.tres" id="2_d0xrs"]
 
-[node name="BiomeTest" type="Node2D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6jiq"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0oowu"]
+size = Vector2(5, 5)
+
+[node name="BiomeTest" type="Node3D"]
 script = ExtResource("1_d6jiq")
-biomeMap = ExtResource("2_d0xrs")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 1)
+material_override = SubResource("StandardMaterial3D_d6jiq")
+mesh = SubResource("PlaneMesh_0oowu")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.7071067, 0.35355335, -0.61237234, 0, 0.8660253, 0.49999997, 0.7071067, 0.35355335, -0.61237234, 0, 0, 0)

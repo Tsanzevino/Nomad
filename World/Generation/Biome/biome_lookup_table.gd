@@ -3,6 +3,8 @@
 ## of the biome from the Biomes array to indicate which biomes go where.
 class_name BiomeLookupTable extends Resource
 
+#region Fields
+
 ## The number of descrete values each parameter can take. For example, 
 ## a resolution of 6 means that temperature can be any value from 0-5, 
 ## and the noise value will be discretized evenly between these values.
@@ -15,6 +17,9 @@ class_name BiomeLookupTable extends Resource
 ## The B.L.T. that was loaded in from the CSV file.
 var table : Dictionary[Vector3i,Biome]
 
+#endregion
+
+#region Functions
 ## Sets the seed of all biomes in the table.
 func set_seed(biomeSeed : int) -> void:
 	for b in biomes:
@@ -37,4 +42,5 @@ func load_from_csv() -> void:
 			var contents := file.get_csv_line()
 			for t in resolution:
 				table[Vector3i(t,h,c)] = biomes[int(contents[t])]
-	
+
+#endregion

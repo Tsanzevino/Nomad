@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddgc7xm03785v"
-path="res://.godot/imported/biome_error_10.png-b97f3e245b076ac7693b5ad48eac4329.ctex"
+uid="uid://blvl31sgd6har"
+path="res://.godot/imported/region_height_10.png-cc16b93bd56f183465f8d107d1011e22.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Testing/TestImages/biome_error_10.png"
-dest_files=["res://.godot/imported/biome_error_10.png-b97f3e245b076ac7693b5ad48eac4329.ctex"]
+source_file="res://Testing/TestImages/region_height_10.png"
+dest_files=["res://.godot/imported/region_height_10.png-cc16b93bd56f183465f8d107d1011e22.ctex"]
 
 [params]
 

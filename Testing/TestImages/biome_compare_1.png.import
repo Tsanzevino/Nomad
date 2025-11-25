@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2yuiadupytx5"
-path="res://.godot/imported/biome_error_0.png-5a058542d419f11efba9de08634202ac.ctex"
+uid="uid://bhegtjwc3t647"
+path="res://.godot/imported/biome_compare_1.png-c55732847ab5e46aa9e963a685e64df7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Testing/TestImages/biome_error_0.png"
-dest_files=["res://.godot/imported/biome_error_0.png-5a058542d419f11efba9de08634202ac.ctex"]
+source_file="res://Testing/TestImages/biome_compare_1.png"
+dest_files=["res://.godot/imported/biome_compare_1.png-c55732847ab5e46aa9e963a685e64df7.ctex"]
 
 [params]
 

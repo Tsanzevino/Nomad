@@ -13,7 +13,9 @@ var chunkLoadingQueue : ChunkLoadingQueue
 static var heightMap : HeightMap = preload("res://Data/World/Generation/HeightMaps/default_height_map.tres")
 static var biomeMap : BiomeMap = preload("res://Data/World/Generation/BiomeMaps/default_biome_map.tres")
 
-@export var threadCount : int = 3
+var spawnRegion : Region
+
+@export var threadCount : int = 1
 var threads : Array[Thread]
 
 func _ready():
@@ -25,6 +27,7 @@ func _ready():
 	heightMap.setup(generationSeed)
 	biomeMap.setup(generationSeed)
 	prepare_terrain_generator()
+	spawnRegion = Region.new(Vector2i(0,0))
 	generate_world()
 	player = get_tree().get_first_node_in_group("Player")
 
@@ -40,8 +43,7 @@ func generate_world():
 	print("Took ", (Time.get_ticks_msec() - timeStart) / 1000.0, " seconds")
 
 func _physics_process(_delta):
-	var coords = Vector2(player.global_position.x,player.global_position.z)
-	var newCoords : Vector2i = ChunkCache.get_chunk_coordinates(coords)
+	var newCoords : Vector2i = Chunk.get_chunk_coordinates(player.global_position.x,player.global_position.z)
 	load_chunks(newCoords)
 	if newCoords == currentChunkCoords:
 		return
@@ -131,14 +133,13 @@ func generate_terrain(pos : Vector3, chunk : Chunk) -> void:
 	var index : int = 0
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var offset : Vector3 = Vector3(float(Chunk.size) / -2.0,0.0,float(Chunk.size) / -2.0)
-	var biomeMapChunk = biomeMap.generate_map_chunk(pos.x, pos.z,Chunk.size * 2)
-	var heights = generate_chunk_heights(pos,biomeMapChunk)
-	heights = smooth_heights(heights)
+	var biomeMapChunk = spawnRegion.biomeMapChunk
+	var biomeHeightChunk = spawnRegion.heightMapChunk
 	for z in (Chunk.size + 1):
 		for x in (Chunk.size + 1):
 			var b = biomeMapChunk.get_biome(x + offset.x + pos.x, z + offset.z + pos.z)
 			surface_tool.set_color(b.biomeColor)
-			var vertexPosition = Vector3(x, heights[z][x] * amplitude, z) + offset
+			var vertexPosition = Vector3(x, biomeHeightChunk.get_height(x + offset.x + pos.x, z + offset.z + pos.z) * amplitude, z) + offset
 			surface_tool.set_uv(Vector2(float(x)/Chunk.size,float(z)/Chunk.size))
 			surface_tool.add_vertex(vertexPosition)
 			if z < Chunk.size and x < Chunk.size:
@@ -153,19 +154,6 @@ func generate_terrain(pos : Vector3, chunk : Chunk) -> void:
 			index += 1
 	surface_tool.generate_normals()
 	call_deferred("assign_mesh", surface_tool.commit(), chunk)
-	call_deferred("assign_biome_chunk", biomeMapChunk, chunk)
-
-func generate_chunk_heights(pos : Vector3, biomeMapChunk : BiomeMapChunk) -> Array[Array]:
-	var heights : Array[Array] = []
-	heights.resize(Chunk.size + 3)
-	var offset : Vector3 = Vector3(float(Chunk.size) / -2.0,0.0,float(Chunk.size) / -2.0)
-	for z in range(-1, (Chunk.size + 2)):
-		heights[z].resize(Chunk.size + 3)
-		for x in range(-1, (Chunk.size + 2)):
-			var height = heightMap.get_height(x + offset.x + pos.x,z + offset.z + pos.z)
-			var biomeHeight = biomeMapChunk.get_biome_height(x + offset.x + pos.x, z + offset.z + pos.z)
-			heights[z][x] = height + biomeHeight
-	return heights
 
 func smooth_heights(heights : Array[Array]) -> Array[Array]:
 	var newHeights : Array[Array] = []
@@ -180,6 +168,3 @@ func assign_mesh(mesh : Mesh, chunk : Chunk):
 	chunk.mesh = mesh
 	# SOURCE OF LAG: SHOULD DO ON THREAD
 	chunk.create_trimesh_collision()
-
-func assign_biome_chunk(mapChunk : BiomeMapChunk, chunk : Chunk):
-	chunk.biomeMapChunk = mapChunk

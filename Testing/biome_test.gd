@@ -1,26 +1,25 @@
-extends Node2D
-
-@export var biomeMap : BiomeMap
+extends Node3D
 
 var timeStart : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var genSeed = 5
-	var radius = 16
-	var size = 16 * 2 * radius
+	var genSeed = 1
+	WorldGenerator.biomeMap.setup(genSeed)
+	WorldGenerator.heightMap.setup(genSeed)
+	var size = 1024
 	Stopwatch.start("Total Gen")
-	biomeMap.setup(genSeed)
-	var image = biomeMap.generate_image(0,0,size)
-	Stopwatch.start("Map Gen")
-	var map = biomeMap.generate_recursive_chunk(0,0,size)
-	Stopwatch.stop("Map Gen")
-	Stopwatch.start("Error Checking")
-	for x in size:
-		for z in size:
-			if map.get_biome(x,z) != null and map.get_biome(x,z) != biomeMap.get_biome(x,z):
-				image.set_pixel(x,z,Color.RED)
-	Stopwatch.stop("Error Checking")
-	%TextureRect.texture = ImageTexture.create_from_image(image)
-	image.save_png("res://Testing/TestImages/biome_error_%s.png" % genSeed)
+	var image = WorldGenerator.biomeMap.generate_image(-((size - 1) / 2),-((size - 1) / 2),size)
+	image.save_png("res://Testing/TestImages/biome_compare_%s.png" % genSeed)
 	Stopwatch.stop("Total Gen")
+	
+	Stopwatch.start("Region")
+	var region = Region.new(Vector2i(0,0))
+	var biomeImage = region.biomeMapChunk.generate_image()
+	print("first access complete")
+	var heightImage = region.heightMapChunk.generate_image()
+	biomeImage.save_png("res://Testing/TestImages/region_biome_%s.png" % genSeed)
+	heightImage.save_png("res://Testing/TestImages/region_height_%s.png" % genSeed)
+	%MeshInstance3D.material_override.albedo_texture = ImageTexture.create_from_image(biomeImage)
+	%MeshInstance3D.material_override.heightmap_texture = ImageTexture.create_from_image(heightImage)
+	Stopwatch.stop("Region")
