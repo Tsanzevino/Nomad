@@ -1,4 +1,4 @@
-class_name BiomeMapChunk extends Object
+class_name BiomeMapChunk extends BiomeMap
 
 #region Fields
 
@@ -21,7 +21,7 @@ func _init(centerX : float, centerZ : float, mapSize : int):
 	# size - 1 accounts for the fencepost problem.
 	offset = Vector2(centerX - (size - 1) / 2.0, centerZ - (size - 1) / 2.0)
 	# Prepare for creating the uncompressed map
-	var biomeMap : BiomeMap = WorldGenerator.biomeMap
+	var biomeMap : BiomeMap = GenerationSettings.biomeMap
 	var map : Array[PackedByteArray] = []
 	var table : Array[Biome]
 	var b : Biome
@@ -156,12 +156,5 @@ func count_biomes_in_quad(q : Variant, quadSize : int = size) -> int:
 	if q is Biome: return 1
 	else:
 		return count_biomes_in_quad(q[0],quadSize / 2) + count_biomes_in_quad(q[1],quadSize / 2) + count_biomes_in_quad(q[2],quadSize / 2) + count_biomes_in_quad(q[3],quadSize / 2)
-
-func generate_image() -> Image:
-	var finalImage := Image.create_empty(size,size,false,Image.FORMAT_RGB8)
-	for x in range(size):
-		for z in range(size):
-			finalImage.set_pixel(x,z, get_biome(offset.x + x, offset.y + z).biomeColor)
-	return finalImage
 
 #endregion

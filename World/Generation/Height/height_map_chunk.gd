@@ -1,4 +1,4 @@
-class_name HeightMapChunk extends Object
+class_name HeightMapChunk extends HeightMap
 
 #region Fields
 
@@ -13,18 +13,21 @@ var size : int
 func _init(centerX : float, centerZ : float, chunkSize : int):
 	size = chunkSize
 	offset = Vector2(centerX - (size - 1) / 2.0, centerZ - (size - 1) / 2.0)
-	var heightMap : HeightMap = WorldGenerator.heightMap
+	var heightMap : HeightMap = GenerationSettings.heightMap
 	map.resize(size)
 	for x in size:
 		map[x].resize(size)
 		for z in size:
 			map[x][z] = heightMap.get_height(x + offset.x,z + offset.y)
 
-func add_biome_heights(biomeMapChunk : BiomeMapChunk):
-	for x in size:
-		for z in size:
-			map[x][z] += biomeMapChunk.get_biome_height(x + offset.x,z + offset.y)
-
+func smooth_heights(heights : Array[Array]) -> Array[Array]:
+	var newHeights : Array[Array] = []
+	newHeights.resize(Chunk.size + 1)
+	for z in (Chunk.size + 1):
+		newHeights[z].resize(Chunk.size + 1)
+		for x in (Chunk.size + 1):
+			newHeights[z][x] = (heights[z][x] + heights[z-1][x] + heights[z+1][x] + heights[z][x-1] + heights[z][x+1]) / 5
+	return newHeights
 
 #endregion
 
@@ -54,7 +57,7 @@ func generate_image() -> Image:
 	var finalImage := Image.create_empty(size,size,false,Image.FORMAT_RF)
 	for x in range(size):
 		for z in range(size):
-			var normalizedHeight : float = (get_height(offset.x + x, offset.y + z) - WorldGenerator.heightMap.minHeight) / WorldGenerator.heightMap.maxHeight
+			var normalizedHeight : float = (get_height(offset.x + x, offset.y + z) - GenerationSettings.heightMap.minHeight) / GenerationSettings.heightMap.maxHeight
 			finalImage.set_pixel(x,z, Color(normalizedHeight,normalizedHeight,normalizedHeight))
 	return finalImage
 

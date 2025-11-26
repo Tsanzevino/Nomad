@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody3D
 
+
 #region Component Utilities
 func get_forward() -> Vector3:
 	var camForward : Vector3 = -%ThirdPersonCamera.global_basis.z

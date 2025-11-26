@@ -1,12 +1,15 @@
 extends Node
 
-var player_height : float
-var player_biome : Biome
 var player : Player
 var biomeMap : BiomeMap
 
+var player_height : float
+var player_biome : Biome
+
+
 func _ready():
 	player = get_tree().get_first_node_in_group("Player")
+	biomeMap = GenerationSettings.biomeMap
 
 func _process(_delta):
 	if player == null: return

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dftm3sdr4grbd"]
+[gd_scene load_steps=24 format=3 uid="uid://dftm3sdr4grbd"]
 
 [ext_resource type="Script" uid="uid://u7kyyarqg8k" path="res://Player/player.gd" id="1_3qydi"]
 [ext_resource type="PackedScene" uid="uid://cr1n63o6s17fn" path="res://Player/Camera/ThirdPersonCamera.tscn" id="2_q3lat"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://dvp2u1osovylg" path="res://Player/PlayerMovement/jumping.gd" id="10_p7tob"]
 [ext_resource type="Script" uid="uid://cupgiwhkfhlg8" path="res://Player/PlayerMovement/sprinting.gd" id="11_dm7nj"]
 [ext_resource type="Script" uid="uid://c878easmdovaa" path="res://Player/PlayerMovement/walking.gd" id="12_3mea3"]
+[ext_resource type="Script" uid="uid://8jcsm6s5m8ma" path="res://World/Generation/Chunk/chunk_loader.gd" id="17_8sa4y"]
+[ext_resource type="Script" uid="uid://cioq6cgu32u1j" path="res://World/Generation/Region/region_loader.gd" id="18_3nb2p"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l2ndj"]
 
@@ -104,3 +106,13 @@ script = ExtResource("11_dm7nj")
 
 [node name="Walking" type="Node" parent="MovementStateMachine"]
 script = ExtResource("12_3mea3")
+
+[node name="RegionLoader" type="Node3D" parent="."]
+script = ExtResource("18_3nb2p")
+metadata/_custom_type_script = "uid://cioq6cgu32u1j"
+
+[node name="ChunkLoader" type="Node3D" parent="."]
+script = ExtResource("17_8sa4y")
+chunkRadius = 7
+threadCount = 2
+metadata/_custom_type_script = "uid://8jcsm6s5m8ma"

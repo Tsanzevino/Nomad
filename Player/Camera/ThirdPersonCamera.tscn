@@ -11,3 +11,4 @@ script = ExtResource("1_exjlg")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 cull_mask = 1048573
+fov = 90.0

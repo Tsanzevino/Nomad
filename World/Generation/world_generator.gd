@@ -1,17 +1,12 @@
 class_name WorldGenerator extends Node3D
 
 @export var chunkRadius : int = 4
-@export var generationSeed : int = 1
-
 @export var amplitude : float = 1
 @export var material : Material
 
 var player : Node3D
 var currentChunkCoords : Vector2i
 var chunkLoadingQueue : ChunkLoadingQueue
-
-static var heightMap : HeightMap = preload("res://Data/World/Generation/HeightMaps/default_height_map.tres")
-static var biomeMap : BiomeMap = preload("res://Data/World/Generation/BiomeMaps/default_biome_map.tres")
 
 var spawnRegion : Region
 
@@ -22,11 +17,7 @@ func _ready():
 	threads.resize(threadCount)
 	for i in threadCount:
 		threads[i] = Thread.new()
-	PlayerStats.biomeMap = biomeMap
 	chunkLoadingQueue = ChunkLoadingQueue.new()
-	heightMap.setup(generationSeed)
-	biomeMap.setup(generationSeed)
-	prepare_terrain_generator()
 	spawnRegion = Region.new(Vector2i(0,0))
 	generate_world()
 	player = get_tree().get_first_node_in_group("Player")
@@ -43,7 +34,7 @@ func generate_world():
 	print("Took ", (Time.get_ticks_msec() - timeStart) / 1000.0, " seconds")
 
 func _physics_process(_delta):
-	var newCoords : Vector2i = Chunk.get_chunk_coordinates(player.global_position.x,player.global_position.z)
+	var newCoords : Vector2i = ChunkCache.get_coordinates(player.global_position)
 	load_chunks(newCoords)
 	if newCoords == currentChunkCoords:
 		return
@@ -57,7 +48,6 @@ func _physics_process(_delta):
 		update_loaded_chunks(Vector2i(0, moveDirection.y), currentChunkCoords)
 	else:
 		update_loaded_chunks(moveDirection, currentChunkCoords)
-
 
 func update_loaded_chunks(moveDirection : Vector2i, coords : Vector2i):
 	# Load new chunks
@@ -123,23 +113,19 @@ func load_chunks(coords : Vector2i):
 	for n in amount:
 		create_new_chunk(chunkLoadingQueue.pop(coords))
 
-func prepare_terrain_generator():
-	if material is ShaderMaterial:
-		material.set_shader_parameter("min_height", heightMap.minHeight * amplitude)
-		material.set_shader_parameter("max_height", heightMap.maxHeight * amplitude)
-
 func generate_terrain(pos : Vector3, chunk : Chunk) -> void:
 	var surface_tool = SurfaceTool.new()
 	var index : int = 0
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var offset : Vector3 = Vector3(float(Chunk.size) / -2.0,0.0,float(Chunk.size) / -2.0)
-	var biomeMapChunk = spawnRegion.biomeMapChunk
-	var biomeHeightChunk = spawnRegion.heightMapChunk
+	var biomeMapChunk = spawnRegion.biomeMapChunk if spawnRegion.biomeMapChunk != null else BiomeMapChunk.new(pos.x,pos.z,Chunk.size * 2)
+	var heightMapChunk = HeightMapChunk.new(pos.x,pos.z,Chunk.size * 2)
+	heightMapChunk.add_biome_heights(biomeMapChunk)
 	for z in (Chunk.size + 1):
 		for x in (Chunk.size + 1):
 			var b = biomeMapChunk.get_biome(x + offset.x + pos.x, z + offset.z + pos.z)
 			surface_tool.set_color(b.biomeColor)
-			var vertexPosition = Vector3(x, biomeHeightChunk.get_height(x + offset.x + pos.x, z + offset.z + pos.z) * amplitude, z) + offset
+			var vertexPosition = Vector3(x, heightMapChunk.get_height(x + offset.x + pos.x, z + offset.z + pos.z) * amplitude, z) + offset
 			surface_tool.set_uv(Vector2(float(x)/Chunk.size,float(z)/Chunk.size))
 			surface_tool.add_vertex(vertexPosition)
 			if z < Chunk.size and x < Chunk.size:

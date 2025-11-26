@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="NoiseComponent" load_steps=4 format=3 uid="uid://buwsklyrcsxud"]
 
-[ext_resource type="Script" path="res://World/Generation/Height/Components/noise_component.gd" id="1_4xwog"]
+[ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/Height/Components/noise_component.gd" id="1_4xwog"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4a5xf"]
 noise_type = 2
