@@ -6,9 +6,9 @@
 frequency = 0.02
 
 [sub_resource type="Curve" id="Curve_mmir7"]
-_limits = [0.0, 1.0, -1.0, 1.0]
-_data = [Vector2(-1, 0), 0.0, 0.0, 0, 0, Vector2(-0.49537033, 0.494065), 0.0, 0.0, 0, 0, Vector2(0.5, 0.49532986), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 4
+_limits = [-1.0, 1.0, -1.0, 1.0]
+_data = [Vector2(-1, -1), 0.0, 0.0, 0, 0, Vector2(-0.75149345, -1), 0.0, 0.0, 0, 0, Vector2(-0.25209087, 0.004822254), 0.0, 0.0, 0, 0, Vector2(0.25448024, 0.004822254), 0.0, 0.0, 0, 0, Vector2(0.7491039, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 6
 
 [resource]
 script = ExtResource("1_sejxn")
@@ -16,5 +16,5 @@ biomeName = "Brushland"
 biomeColor = Color(0.6666667, 0.7019608, 0.2784314, 1)
 noiseSampler = SubResource("Curve_mmir7")
 noise = SubResource("FastNoiseLite_sejxn")
-weight = 2.0
+weight = 10.0
 metadata/_custom_type_script = "uid://b7g07yakxwmu5"

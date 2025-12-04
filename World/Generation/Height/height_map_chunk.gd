@@ -10,24 +10,27 @@ var size : int
 
 #region Setup Functions
 
-func _init(centerX : float, centerZ : float, chunkSize : int):
+func _init(centerX : float, centerZ : float, chunkSize : int, smoothRadius : int = 1):
 	size = chunkSize
 	offset = Vector2(centerX - (size - 1) / 2.0, centerZ - (size - 1) / 2.0)
 	var heightMap : HeightMap = GenerationSettings.heightMap
+	var rawMap : Array[PackedFloat32Array] = []
+	var rawSize : int = size + 2 * smoothRadius
+	rawMap.resize(rawSize)
+	for x in rawSize:
+		rawMap[x].resize(rawSize)
+		for z in rawSize:
+			rawMap[x][z] = heightMap.get_height((x - smoothRadius) + offset.x,(z - smoothRadius) + offset.y)
+	
 	map.resize(size)
-	for x in size:
-		map[x].resize(size)
-		for z in size:
-			map[x][z] = heightMap.get_height(x + offset.x,z + offset.y)
-
-func smooth_heights(heights : Array[Array]) -> Array[Array]:
-	var newHeights : Array[Array] = []
-	newHeights.resize(Chunk.size + 1)
-	for z in (Chunk.size + 1):
-		newHeights[z].resize(Chunk.size + 1)
-		for x in (Chunk.size + 1):
-			newHeights[z][x] = (heights[z][x] + heights[z-1][x] + heights[z+1][x] + heights[z][x-1] + heights[z][x+1]) / 5
-	return newHeights
+	for x in range(smoothRadius, size + smoothRadius):
+		map[x - smoothRadius].resize(size)
+		for z in range(smoothRadius, size + smoothRadius):
+			var heightAcc : float = 0.0
+			for rawx in range(-smoothRadius,smoothRadius + 1):
+				for rawz in range(-smoothRadius,smoothRadius + 1):
+					heightAcc += rawMap[x + rawx][z + rawz]
+			map[x - smoothRadius][z - smoothRadius] = heightAcc / ((smoothRadius * 2 + 1) *(smoothRadius * 2 + 1))
 
 #endregion
 

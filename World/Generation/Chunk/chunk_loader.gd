@@ -1,10 +1,11 @@
 ## This Node loads the chunks as the player moves through the world.
 class_name ChunkLoader extends Node3D
 
-@export var chunkRadius : int = 2
+@export var chunkRadius : int = 7
 
 var currentChunkCoords : Vector2i
 var chunkLoadingQueue : ChunkLoadingQueue
+var loadedSet : CoordinateSet = CoordinateSet.new()
 
 @export var threadCount : int = 1
 var threads : Array[Thread]
@@ -44,7 +45,8 @@ func load_from_queue():
 			queueMutex.unlock()
 			# Load the chunk
 			create_new_chunk(newChunkCoords)
-		else: queueMutex.unlock()
+		else: 
+			queueMutex.unlock()
 
 ## Before quitting, the threads must finish, so
 ## the threads are signalled and then waited on.
@@ -56,9 +58,12 @@ func _exit_tree():
 ## Generates the chunks initially surrounding the player
 func generate_spawn():
 	Stopwatch.start("Spawn Generation")
+	queueMutex.lock()
+	fill_set(loadedSet,currentChunkCoords)
 	for z in range(-chunkRadius, chunkRadius + 1):
 		for x in range(-chunkRadius, chunkRadius + 1):
 			chunkLoadingQueue.push(Vector2i(x,z))
+	queueMutex.unlock()
 	while(chunkLoadingQueue.size() > 0): pass
 	Stopwatch.stop("Spawn Generation")
 
@@ -71,60 +76,59 @@ func _physics_process(_delta):
 	# Print the coordinates for debugging
 	print(newCoords)
 	# Get the direction the chunk changed in
-	var moveDirection : Vector2i = newCoords - currentChunkCoords
 	currentChunkCoords = newCoords
-	# Its possible to move diagonally, and that has to be treated differently
-	if moveDirection.length() > 1.1:
-		update_loaded_chunks(Vector2i(moveDirection.x, 0), currentChunkCoords - Vector2i(0, moveDirection.y))
-		update_loaded_chunks(Vector2i(0, moveDirection.y), currentChunkCoords)
-	else:
-		update_loaded_chunks(moveDirection, currentChunkCoords)
+	update_loaded_chunks()
 
-func update_loaded_chunks(moveDirection : Vector2i, coords : Vector2i):
-	# Load new chunks
-	var xRange := [(moveDirection.x * chunkRadius) + coords.x] if moveDirection.x != 0 \
-		else range(-chunkRadius + coords.x, chunkRadius + coords.x + 1)
-	var zRange := [(moveDirection.y * chunkRadius) + coords.y] if moveDirection.y != 0 \
-		else range(-chunkRadius + coords.y, chunkRadius + coords.y + 1)
+func update_loaded_chunks():
+	# Update the loaded set
+	loadedSet.empty()
+	fill_set(loadedSet, currentChunkCoords)
+	# Loop through the set and load the new chunks
 	queueMutex.lock()
-	for x in xRange:
-		for z in zRange:
-			var chunkCoords := Vector2i(x,z)
-			var chunk : Chunk = ChunkCache.get_chunk(chunkCoords)
-			if chunk == null:
-				# Need to generate a new chunk
-				chunkLoadingQueue.push(chunkCoords)
-			else:
-				# Chunk found in cache, reload it
-				if chunk.get_parent() != chunkParent:
-					chunkParent.add_child(chunk)
+	for chunkCoords in loadedSet.get_set():
+		if chunkLoadingQueue.has_chunk(chunkCoords): continue
+		var chunk : Chunk = ChunkCache.get_chunk(chunkCoords)
+		if chunk == null:
+			# Need to generate a new chunk
+			chunkLoadingQueue.push(chunkCoords)
+		else:
+			# Chunk found in cache, reload it
+			if chunk.get_parent() != chunkParent:
+				chunkParent.add_child(chunk)
+	
+	# Loop through the active chunks and unload unneeded chunks
+	for chunk : Chunk in chunkParent.get_children():
+		var coords = ChunkCache.get_coordinates(chunk.global_position)
+		if loadedSet.has(coords): continue
+		# If we got here, we should need to remove the chunk
+		if chunkLoadingQueue.has_chunk(coords):
+			chunkLoadingQueue.remove_chunk(coords)
+		else:
+			chunkParent.remove_child(chunk)
 	queueMutex.unlock()
-	# Remove old chunks
-	xRange = [(-moveDirection.x * (chunkRadius + 1)) + coords.x] if moveDirection.x != 0 else range(-chunkRadius + coords.x, chunkRadius + coords.x + 1)
-	zRange = [(-moveDirection.y * (chunkRadius + 1)) + coords.y] if moveDirection.y != 0 else range(-chunkRadius + coords.y, chunkRadius + coords.y + 1)
-	queueMutex.lock()
-	for x in xRange:
-		for z in zRange:
-			var remove := Vector2i(x,z)
-			if chunkLoadingQueue.has_chunk(remove):
-				chunkLoadingQueue.remove_chunk(remove)
-			else:
-				var removingChunk := ChunkCache.get_chunk(remove)
-				if removingChunk != null:
-					chunkParent.remove_child(ChunkCache.get_chunk(remove))
-	queueMutex.unlock()
+	
+
+func fill_set(coordSet : CoordinateSet, coords : Vector2i):
+	if (coords.distance_to(currentChunkCoords) > chunkRadius + 0.5): return
+	if coordSet.has(coords): return
+	coordSet.add(coords)
+	fill_set(coordSet, coords + Vector2i.DOWN)
+	fill_set(coordSet, coords + Vector2i.UP)
+	fill_set(coordSet, coords + Vector2i.RIGHT)
+	fill_set(coordSet, coords + Vector2i.LEFT)
 
 func create_new_chunk(coords : Vector2i) -> void:
 	var pos := Vector3(coords.x * Chunk.size, 0, coords.y * Chunk.size)
 	var mesh := generate_mesh(pos)
 	var chunk := Chunk.new()
-	ChunkCache.set_chunk(coords,chunk)
-	call_deferred("apply",chunk,mesh,pos)
+	call_deferred("apply",chunk,mesh,pos,coords)
 
-func apply(chunk : Chunk, mesh : Mesh, pos : Vector3):
+func apply(chunk : Chunk, mesh : Mesh, pos : Vector3, coords : Vector2i):
+	print("loaded %s" % coords)
 	chunkParent.add_child(chunk)
 	chunk.global_position = pos
 	chunk.mesh = mesh
+	ChunkCache.set_chunk(coords,chunk)
 	# SOURCE OF LAG: SHOULD DO ON THREAD
 	chunk.create_trimesh_collision()
 

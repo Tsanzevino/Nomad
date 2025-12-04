@@ -11,4 +11,3 @@ func _init(regionCoords : Vector2i) -> void:
 	var center := regionCoords * (Region.size * Chunk.size)
 	biomeMap = BiomeMapChunk.new(center.x - 1,center.y -1,(Region.size + 1) * Chunk.size)
 	heightMap = HeightMapChunk.new(center.x - 1,center.y - 1,(Region.size + 1) * Chunk.size)
-	print(regionCoords, " loaded")

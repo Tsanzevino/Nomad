@@ -54,9 +54,14 @@ func _exit_tree():
 ## Generates the regions initially surrounding the player
 func generate_spawn():
 	Stopwatch.start("Spawn Region Generation")
+	currentRegionCoords = Vector2i(0,0)
+	queueMutex.lock()
 	for z in range(-regionRadius, regionRadius + 1):
 		for x in range(-regionRadius, regionRadius + 1):
 			regionLoadingQueue.push(Vector2i(x,z))
+	var coords := regionLoadingQueue.pop(currentRegionCoords)
+	queueMutex.unlock()
+	RegionCache.set_region(coords,Region.new(coords))
 	while(regionLoadingQueue.size() > 0): pass
 	Stopwatch.stop("Spawn Region Generation")
 
@@ -106,4 +111,7 @@ func update_loaded_regions(moveDirection : Vector2i, coords : Vector2i):
 
 func create_new_region(coords : Vector2i) -> void:
 	var region := Region.new(coords)
+	call_deferred("apply",region,coords)
+
+func apply(region : Region, coords : Vector2i) -> void:
 	RegionCache.set_region(coords,region)

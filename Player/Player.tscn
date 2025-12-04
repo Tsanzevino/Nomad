@@ -113,6 +113,5 @@ metadata/_custom_type_script = "uid://cioq6cgu32u1j"
 
 [node name="ChunkLoader" type="Node3D" parent="."]
 script = ExtResource("17_8sa4y")
-chunkRadius = 7
 threadCount = 2
 metadata/_custom_type_script = "uid://8jcsm6s5m8ma"
