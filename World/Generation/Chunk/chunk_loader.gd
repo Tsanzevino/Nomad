@@ -124,7 +124,6 @@ func create_new_chunk(coords : Vector2i) -> void:
 	call_deferred("apply",chunk,mesh,pos,coords)
 
 func apply(chunk : Chunk, mesh : Mesh, pos : Vector3, coords : Vector2i):
-	print("loaded %s" % coords)
 	chunkParent.add_child(chunk)
 	chunk.global_position = pos
 	chunk.mesh = mesh

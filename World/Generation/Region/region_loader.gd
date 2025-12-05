@@ -4,7 +4,7 @@
 class_name RegionLoader extends Node3D
 
 @export var regionRadius : int = 1
-@export var threadCount : int = 3
+@export var threadCount : int = 2
 
 var currentRegionCoords : Vector2i
 var regionLoadingQueue : RegionLoadingQueue
@@ -62,7 +62,6 @@ func generate_spawn():
 	var coords := regionLoadingQueue.pop(currentRegionCoords)
 	queueMutex.unlock()
 	RegionCache.set_region(coords,Region.new(coords))
-	while(regionLoadingQueue.size() > 0): pass
 	Stopwatch.stop("Spawn Region Generation")
 
 func _physics_process(_delta):

@@ -10,7 +10,7 @@ var size : int
 
 #region Setup Functions
 
-func _init(centerX : float, centerZ : float, chunkSize : int, smoothRadius : int = 1):
+func _init(centerX : float, centerZ : float, chunkSize : int, smoothRadius : int = 10):
 	size = chunkSize
 	offset = Vector2(centerX - (size - 1) / 2.0, centerZ - (size - 1) / 2.0)
 	var heightMap : HeightMap = GenerationSettings.heightMap
