@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1xgfmun1gkuv"]
+[gd_scene format=3 uid="uid://c1xgfmun1gkuv"]
 
 [ext_resource type="Environment" uid="uid://ba2w1hx6ty0ah" path="res://Data/World/world_environment.tres" id="1_maf25"]
 [ext_resource type="PackedScene" uid="uid://dftm3sdr4grbd" path="res://Player/Player.tscn" id="2_1pd7n"]
@@ -11,17 +11,17 @@ albedo_color = Color(0.27451, 0.678431, 1, 0.501961)
 material = SubResource("StandardMaterial3D_fkr4u")
 size = Vector2(1392, 1392)
 
-[node name="Test" type="Node3D"]
+[node name="Test" type="Node3D" unique_id=1938668106]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1536449097]
 environment = ExtResource("1_maf25")
 
-[node name="Player" parent="." instance=ExtResource("2_1pd7n")]
+[node name="Player" parent="." unique_id=605449839 instance=ExtResource("2_1pd7n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1039906055]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
 visible = false
 mesh = SubResource("PlaneMesh_fkr4u")
 
-[node name="World" type="Node3D" parent="." groups=["World"]]
+[node name="World" type="Node3D" parent="." unique_id=1010233128 groups=["World"]]
