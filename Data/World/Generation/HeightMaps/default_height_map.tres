@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HeightMap" load_steps=5 format=3 uid="uid://c5r21j0muhcxe"]
+[gd_resource type="Resource" script_class="HeightMap" format=3 uid="uid://c5r21j0muhcxe"]
 
 [ext_resource type="Script" uid="uid://xu4q47ndp3fs" path="res://World/Generation/Height/Components/noise_component.gd" id="1_px7wa"]
 [ext_resource type="Resource" uid="uid://du65liphc327b" path="res://Data/World/Generation/HeightComponents/continentalness.tres" id="2_8pxh3"]

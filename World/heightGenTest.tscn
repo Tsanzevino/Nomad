@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c1hs6k77f3sr5"]
+
+[ext_resource type="Script" uid="uid://cph5aijdel3d0" path="res://World/height_gen_test.gd" id="1_f8rj2"]
+[ext_resource type="Resource" uid="uid://buwsklyrcsxud" path="res://Data/World/Generation/HeightComponents/erosion.tres" id="2_w24en"]
+[ext_resource type="Environment" uid="uid://ba2w1hx6ty0ah" path="res://Data/World/world_environment.tres" id="2_ylw1s"]
+[ext_resource type="Resource" uid="uid://du65liphc327b" path="res://Data/World/Generation/HeightComponents/continentalness.tres" id="3_hysji"]
+[ext_resource type="Resource" uid="uid://bdam7fg3qlcfk" path="res://Data/World/Generation/HeightComponents/peaks_and_valleys.tres" id="4_guhtv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w24en"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_86e86"]
+size = Vector2(512, 512)
+
+[node name="HeightGenTest" type="Node3D" unique_id=595179562]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1759569820]
+material_override = SubResource("StandardMaterial3D_w24en")
+script = ExtResource("1_f8rj2")
+erosionMap = ExtResource("2_w24en")
+continentalnessMap = ExtResource("3_hysji")
+amplitudeMap = ExtResource("4_guhtv")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1900012891]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 300, 250)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1625073743]
+environment = ExtResource("2_ylw1s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=936791893]
+mesh = SubResource("PlaneMesh_86e86")
